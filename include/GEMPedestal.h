@@ -47,7 +47,7 @@ private:
 
     std::string filename;
 
-    ifstream file;
+    std::ifstream file;
 
     std::vector<TH1F*> vStripOffsetHistos;
     std::vector<TH1F*> vStripNoiseHistos;
