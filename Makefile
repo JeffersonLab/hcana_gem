@@ -35,10 +35,11 @@ glibs   := $(shell root-config --glibs)
 cflags  := $(shell root-config --cflags)
 
 #incfile := -I/home/xbai/w/coda/common/include -I./include
-incfile := -I/home/daq/GEM_Online_Viewer/coda/common/include -I./include
+#incfile := -I/home/daq/GEM_Online_Viewer/coda/common/include -I./include
+incfile := -I/home/saw/ROOT/GEM_Online_Viewer/coda/common/include -I./include
 
 
-flags   := -O3 -g -std=c++11 $(glibs) $(cflags) $(incfile) -L/home/daq/GEM_Online_Viewer/coda/Linux-x86_64/lib -levio -levioxx -lexpat
+flags   := -O3 -g -std=c++11 $(glibs) $(cflags) $(incfile) -L/home/saw/ROOT/GEM_Online_Viewer/coda/Linux-x86_64/lib -levio -levioxx -lexpat
 
 $(Target) : $(OBJS)
 	@$(cc) -o $(Target) $(OBJS) $(flags)
