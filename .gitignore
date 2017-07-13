@@ -1,0 +1,18 @@
+# ignore patterns
+
+# Auto generated files
+main
+obj/*
+plotevent.root
+root_file/*
+
+# Patterns
+*.[oad]
+*~
+*.so
+*.so.*
+*.os
+*.pcm
+\#*\#
+
+
