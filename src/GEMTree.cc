@@ -38,7 +38,7 @@ void GEMTree::SetGEMConfigure(GEMConfigure * c)
     configure = c;
 
     // init res tree
-    this -> InitGEMTree(2); // 2 gem detectors
+    this -> InitGEMTree(1); // 2 gem detectors
     this -> InitEpicsTree();
 }
 
