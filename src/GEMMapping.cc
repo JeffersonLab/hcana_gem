@@ -212,25 +212,50 @@ void GEMMapping::LoadMapping(const char * mappingCfgFilename) {
 	while (TObjString * st = (TObjString*) myiter.Next()) {
 
 	    //== Remove leading and trailer spaces
-	    TString s = st->GetString().Remove(TString::kLeading, ' ' );
+	    TString s = st->GetString();
+	    s.Remove(TString::kLeading, ' ' );
 	    s.Remove(TString::kTrailing, ' ' );                         
 
 	    //      printf("    GEMMapping::LoadDefaultMapping() ==> Data ==> %s\n",s.Data()) ;
 	    if(s == "DET") {
-		TString readoutBoard = ((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' );
-		TString detectorType = ((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' );
-		TString detector     = ((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' );
+	        TString readoutBoard = ((TObjString*) myiter.Next())->GetString();
+		readoutBoard.Remove(TString::kLeading, ' ' );
+		TString detectorType = ((TObjString*) myiter.Next())->GetString();
+		detectorType.Remove(TString::kLeading, ' ' );
+		TString detector     = ((TObjString*) myiter.Next())->GetString();
+		detector.Remove(TString::kLeading, ' ' );
 
 		if (readoutBoard == "CARTESIAN")  {
-		    TString planeX           = ((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' );
-		    Float_t sizeX            = (((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' )).Atof();
-		    Int_t   nbOfConnectorsX  = (((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' )).Atoi();
-		    Int_t   orientationX     = (((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' )).Atoi();
+		    TString planeX           = ((TObjString*) myiter.Next())->GetString();
+		    planeX.Remove(TString::kLeading, ' ' );
 
-		    TString planeY           = ((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' );
-		    Float_t sizeY            = (((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' )).Atof();
-		    Int_t   nbOfConnectorsY  = (((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' )).Atoi();
-		    Int_t   orientationY     = (((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' )).Atoi();
+		    TString st_sizeX = ((TObjString*) myiter.Next())->GetString();
+		    st_sizeX.Remove(TString::kLeading, ' ' );
+		    Float_t sizeX = st_sizeX.Atof();
+
+		    TString st_nbOfConnectorsX = ((TObjString*) myiter.Next())->GetString();
+		    st_nbOfConnectorsX.Remove(TString::kLeading, ' ' );
+		    Int_t nbOfConnectorsX = st_nbOfConnectorsX.Atof();
+
+		    TString st_orientationX = ((TObjString*) myiter.Next())->GetString();
+		    st_orientationX.Remove(TString::kLeading, ' ' );
+		    Int_t orientationX = st_orientationX.Atof();
+
+		    TString planeY           = ((TObjString*) myiter.Next())->GetString();
+		    planeY.Remove(TString::kLeading, ' ' );
+
+		    TString st_sizeY = ((TObjString*) myiter.Next())->GetString();
+		    st_sizeY.Remove(TString::kLeading, ' ' );
+		    Float_t sizeY = st_sizeY.Atof();
+
+		    TString st_nbOfConnectorsY = ((TObjString*) myiter.Next())->GetString();
+		    st_nbOfConnectorsY.Remove(TString::kLeading, ' ' );
+		    Int_t nbOfConnectorsY = st_nbOfConnectorsY.Atof();
+
+		    TString st_orientationY = ((TObjString*) myiter.Next())->GetString();
+		    st_orientationY.Remove(TString::kLeading, ' ' );
+		    Int_t orientationY = st_orientationY.Atof();
+
 		    SetCartesianStripsReadoutMap(readoutBoard, detectorType, detector, detID, planeX, sizeX, nbOfConnectorsX, orientationX, planeY, sizeY, nbOfConnectorsY, orientationY) ;
 		}
 		else {
@@ -241,21 +266,46 @@ void GEMMapping::LoadMapping(const char * mappingCfgFilename) {
 	    }
 
 	    if(s == "APV") {
-		Int_t   fecId     = (((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' )).Atoi();
-		Int_t   adcCh     = (((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' )).Atoi();
-		TString detPlane  = ((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' );
-		Int_t   apvOrient = (((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' )).Atoi();
-		Int_t   apvIndex  = (((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' )).Atoi();
-		Int_t   apvheader = (((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' )).Atoi();
-		TString defautAPV = ((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' );
+		TString st_fecId = ((TObjString*) myiter.Next())->GetString();
+		st_fecId.Remove(TString::kLeading, ' ' );
+		Int_t fecId = st_fecId.Atoi();
 
-		if (detPlane == "NULL") continue ;
+		TString st_adcCh = ((TObjString*) myiter.Next())->GetString();
+		st_adcCh.Remove(TString::kLeading, ' ' );
+		Int_t adcCh = st_adcCh.Atoi();
+
+		TString detPlane = ((TObjString*) myiter.Next())->GetString();
+		detPlane.Remove(TString::kLeading, ' ' );
+
+		TString st_apvOrient = ((TObjString*) myiter.Next())->GetString();
+		st_apvOrient.Remove(TString::kLeading, ' ' );
+		Int_t apvOrient = st_apvOrient.Atoi();
+
+		TString st_apvIndex = ((TObjString*) myiter.Next())->GetString();
+		st_apvIndex.Remove(TString::kLeading, ' ' );
+		Int_t apvIndex = st_apvIndex.Atoi();
+
+		TString st_apvheader = ((TObjString*) myiter.Next())->GetString();
+		st_apvheader.Remove(TString::kLeading, ' ' );
+		Int_t apvheader = st_apvheader.Atoi();
+
+		TString defautAPV = ((TObjString*) myiter.Next())->GetString();
+		defautAPV.Remove(TString::kLeading, ' ' );
+
+		//		if (detPlane == "NULL") continue ;
+		// (saw) what is meant by that line.  detPlane is an int, so can never
+		// be equal to a string.  Do we mean detPlane == 0?
+		// Leave it commented out for now
+
 		SetAPVMap(detPlane, fecId, adcCh, apvNo, apvOrient, apvIndex, apvheader, defautAPV) ;
 		apvNo++ ;
 	    }
 	    if(s == "FEC") {
-		Int_t   fecId     = (((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' )).Atoi();
-		TString ip = ((TObjString*) myiter.Next())->GetString().Remove(TString::kLeading, ' ' );
+		TString st_fecId = ((TObjString*) myiter.Next())->GetString();
+		st_fecId.Remove(TString::kLeading, ' ' );
+		Int_t fecId = st_fecId.Atoi();
+		TString ip = ((TObjString*) myiter.Next())->GetString();
+		ip.Remove(TString::kLeading, ' ' );
 		fFECIPFromFECID[fecId] = ip;
 		fFECIDFromFECIP[ip] = fecId;
 	    }
