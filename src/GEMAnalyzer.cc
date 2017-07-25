@@ -45,8 +45,18 @@ static string trim(const string &str, const string &w = " \t\n\r")
 
 GEMAnalyzer::GEMAnalyzer()
 {
-    configure = new GEMConfigure();
-    configure->LoadConfigure();
+    GEMConfigure *config = new GEMConfigure();
+    config->LoadConfigure();
+
+    Init(config);
+}
+GEMAnalyzer::GEMAnalyzer(GEMConfigure* config)
+{
+    Init(config);
+}
+void GEMAnalyzer::Init(GEMConfigure* config)
+{
+    configure = config;
 
     pedestal = new GEMPedestal();
     pedestal -> SetGEMConfigure(configure);

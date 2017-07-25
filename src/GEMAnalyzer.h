@@ -27,14 +27,18 @@ class GEMAnalyzer
 {
 public:
     GEMAnalyzer();
+    GEMAnalyzer(GEMConfigure* config);
     ~GEMAnalyzer();
 
+    void Init(GEMConfigure* config);
     void ProcessFiles();
     void Process();
     void SetDataHandler();
     void RegisterClass();
     void ProcessResults();
     void GetRunType();
+    GEMEvioParser* GetParser() {return parser;}
+    GEMDataHandler* GetHandler() {return handler;}
 
 private:
     std::string file;
