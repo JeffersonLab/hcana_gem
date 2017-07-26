@@ -82,10 +82,12 @@ void GEMDataHandler::DispatchByBank(unsigned int *buf, int & size)
             break; 
 	case EPICS_BANK:
         {
+#if 0	  
 	    epics_analyzer -> SetEventNumber(eventNumber);
 	    epics_analyzer -> ReadBuffer(buf);
 	    //epics_analyzer -> PrintEpics();
 	    epics_analyzer -> ProcessEvent();
+#endif
 	    break;
 	}
 	case GEM_BANK:
@@ -99,8 +101,10 @@ void GEMDataHandler::DispatchByBank(unsigned int *buf, int & size)
 	}
 	case TDC_BANK:
 	{
+#if 0	  
 	    tdc_event_analyzer->SetEventNumber(eventNumber);
 	    tdc_event_analyzer->ProcessEvent(buf, size);
+#endif
 	    break;
 	}
 	case EVINFO_BANK:
