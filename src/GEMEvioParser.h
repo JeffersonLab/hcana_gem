@@ -26,7 +26,7 @@ public:
     void SetDataHandler( GEMDataHandler * fHandler);
     void SetEventUpdater(EventUpdater *);
     void SetGEMConfigure(GEMConfigure* con);
-
+    EventUpdater *GetEventUpdater() {return update_event;}
 
 private:
     GEMDataHandler *handler;

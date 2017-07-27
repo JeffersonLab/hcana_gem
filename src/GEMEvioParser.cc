@@ -1,16 +1,22 @@
+#define NOEVIO
+
 #include "GEMEvioParser.h"
 #include "GEMDataHandler.h"
 #include "GEMDataStruct.h"
 #include "datastruct.h"
 #include "GEMConfigure.h"
+#ifndef NOEVIO
 #include <evioUtil.hxx>
 #include <evioFileChannel.hxx>
+#endif
 #include "EventUpdater.h"
 
 #define HEADER_SIZE 2
 
 using namespace std;
+#ifndef NOEVIO
 using namespace evio;
+#endif
 
 GEMEvioParser::GEMEvioParser() {
     eventLimit = 3000;
@@ -41,6 +47,11 @@ void GEMEvioParser::SetEventUpdater(EventUpdater *fupdate)
 }
 
 
+#ifdef NOEVIO
+void GEMEvioParser::ParseFile(string & file)
+{
+}
+#else
 void GEMEvioParser::ParseFile(string & file)
 {
     cout<<"evio Parser: pasing file: "
@@ -68,6 +79,7 @@ void GEMEvioParser::ParseFile(string & file)
     }
 
 }
+#endif
 
 void GEMEvioParser::ParseEvent(unsigned int * buf)
 {
