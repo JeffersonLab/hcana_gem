@@ -21,6 +21,8 @@ SRC =      GEMEvtHandler.cc \
 	   EventUpdater.cc \
 	   GEMSignalFitting.cc
 
+#	   main.cc GEMEvioParser.cc
+
 PACKAGE = GEM
 
 LINKDEF = $(PACKAGE)_LinkDef.h
@@ -108,7 +110,7 @@ $(USERLIB):	$(HDR) $(OBJS)
 		$(LD) $(LDFLAGS) $(SOFLAGS) -o $@ $(OBJS)
 		@echo "$@ done"
 
-$(USERDICT).cxx: $(HDR) $(LINKDEF)
+$(USERDICT).cc: $(HDR) $(LINKDEF)
 	@echo "Generating dictionary $(USERDICT)..."
 	$(ROOTSYS)/bin/rootcint -f $@ -c $(ROOTINC) $(INCLUDES) $(DEFINES) $^
 
