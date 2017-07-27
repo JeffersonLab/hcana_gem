@@ -5,6 +5,7 @@ main
 obj/*
 plotevent.root
 root_file/*
+src/GEMDict.cc
 
 # Patterns
 *.[oad]
@@ -14,5 +15,3 @@ root_file/*
 *.os
 *.pcm
 \#*\#
-
-
