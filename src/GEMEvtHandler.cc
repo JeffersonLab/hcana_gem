@@ -57,3 +57,7 @@ THaAnalysisObject::EStatus GEMEvtHandler::Init(const TDatime& date)
 
   return kOK;
 }
+Int_t GEMEvtHandler::End( THaRunBase* r)
+{
+  fGEMAnalyzer->ProcessResults();
+}

@@ -22,6 +22,7 @@ public:
 
    Int_t Analyze(THaEvData *evdata);
    virtual EStatus Init( const TDatime& run_time);
+   virtual Int_t End( THaRunBase* r=0 );
    void SetConfigFile( const char* name) { fConfigFileName = name; }
 
 protected:
