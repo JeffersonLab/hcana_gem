@@ -3,7 +3,6 @@
 \brief Custom event handler for GEM data
 */
 
-#include "THaEvtTypeHandler.h"
 #include "THcGEM.h"
 #include "GEMMapping.h"
 #include "GEMConfigure.h"
@@ -12,8 +11,9 @@
 
 using namespace std;
 
-THcGEM::THcGEM(const char *name, const char* description)
- : THaEvtTypeHandler(name, description)
+THcGEM::THcGEM(const char *name, const char* description,
+	       THaApparatus* apparatus)
+ : THaNonTrackingDetector(name, description)
 {
   fConfigFileName = "config/gem.cfg";
 }
@@ -21,23 +21,31 @@ THcGEM::~THcGEM()
 {
   DefineVariables( kDelete );
 }
-Int_t THcGEM::Analyze(THaEvData *evdata)
+Int_t THcGEM::Decode(const THaEvData& evdata)
 {
-  if( !IsMyEvent(evdata->GetEvType()) ) return -1;
 
-  Int_t ndata = evdata->GetEvLength();
-  UInt_t* rdata = (UInt_t*) evdata->GetRawDataBuffer();
+  Int_t ndata = evdata.GetEvLength();
+  UInt_t* rdata = (UInt_t*) evdata.GetRawDataBuffer();
   
   //  cout << "THcGEM::Analyze " << ndata << " " << rdata[0] << " " << 
   //   evtype << endl;
   // Decode says it want's length, but what it really wants is index
   // of last word of event
   fHandler->Decode(&rdata[2],ndata-3);
-  fUpdateEvent->Update();
-
-  fEvCount++;
 
   return kOK;
+}
+Int_t THcGEM::CoarseProcess( TClonesArray& tracks )
+{
+  fUpdateEvent->Update();
+  fEvCount++;
+  return 0;
+
+}
+Int_t THcGEM::FineProcess( TClonesArray& tracks )
+{
+  return 0;
+
 }
 THaAnalysisObject::EStatus THcGEM::Init(const TDatime& date)
 {
@@ -60,12 +68,16 @@ THaAnalysisObject::EStatus THcGEM::Init(const TDatime& date)
   // Fake variables for testing
   fEvCount = 0;
 
-  cout << "Calling THaAnalysisObject::Init" << endl;
+  cout << "Calling THaNonTrackingDetector::Init" << endl;
   EStatus status;
-  if (status = THaAnalysisObject::Init( date ) ) 
+  if ( (status = THaNonTrackingDetector::Init( date )) ) 
     return fStatus=status;
-  cout << "Called THaAnalysisObject::Init" << endl;
+  cout << "Called THaNonTrackingDetector::Init" << endl;
 
+  return kOK;
+}
+Int_t THcGEM::ReadDatabase( const TDatime& date )
+{
   return kOK;
 }
 Int_t THcGEM::End( THaRunBase* r)

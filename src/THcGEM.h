@@ -7,23 +7,30 @@
 //
 /////////////////////////////////////////////////////////////////////
 
-#include "THaEvtTypeHandler.h"
+#include "THaNonTrackingDetector.h"
 #include "GEMAnalyzer.h"
 #include "GEMEvioParser.h"
 #include "GEMDataHandler.h"
 #include "EventUpdater.h"
 //#include "VarDef.h"
 
-class THcGEM : public THaEvtTypeHandler {
+class THcGEM : public THaNonTrackingDetector {
 
 public:
 
-   THcGEM(const char*, const char*);
+   THcGEM(const char*, const char*, THaApparatus* a = NULL);
    virtual ~THcGEM();
 
-   Int_t Analyze(THaEvData *evdata);
+   Int_t Decode(THaEvData *evdata);
    virtual EStatus Init( const TDatime& run_time);
+
+   virtual Int_t Decode( const THaEvData& );
+   virtual Int_t CoarseProcess( TClonesArray& tracks );
+   virtual Int_t FineProcess( TClonesArray& tracks );
+
+
    virtual Int_t End( THaRunBase* r=0 );
+   virtual Int_t ReadDatabase( const TDatime& date );
    virtual Int_t DefineVariables( EMode mode = kDefine );
 
    void SetConfigFile( const char* name) { fConfigFileName = name; }
