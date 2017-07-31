@@ -1,10 +1,10 @@
 /**
-\class GEMEvtHandler
+\class THcGEM
 \brief Custom event handler for GEM data
 */
 
 #include "THaEvtTypeHandler.h"
-#include "GEMEvtHandler.h"
+#include "THcGEM.h"
 #include "GEMMapping.h"
 #include "GEMConfigure.h"
 #include "THaCodaData.h"
@@ -12,23 +12,23 @@
 
 using namespace std;
 
-GEMEvtHandler::GEMEvtHandler(const char *name, const char* description)
+THcGEM::THcGEM(const char *name, const char* description)
  : THaEvtTypeHandler(name, description)
 {
   fConfigFileName = "config/gem.cfg";
 }
-GEMEvtHandler::~GEMEvtHandler()
+THcGEM::~THcGEM()
 {
   DefineVariables( kDelete );
 }
-Int_t GEMEvtHandler::Analyze(THaEvData *evdata)
+Int_t THcGEM::Analyze(THaEvData *evdata)
 {
   if( !IsMyEvent(evdata->GetEvType()) ) return -1;
 
   Int_t ndata = evdata->GetEvLength();
   UInt_t* rdata = (UInt_t*) evdata->GetRawDataBuffer();
   
-  //  cout << "GEMEvtHandler::Analyze " << ndata << " " << rdata[0] << " " << 
+  //  cout << "THcGEM::Analyze " << ndata << " " << rdata[0] << " " << 
   //   evtype << endl;
   // Decode says it want's length, but what it really wants is index
   // of last word of event
@@ -39,7 +39,7 @@ Int_t GEMEvtHandler::Analyze(THaEvData *evdata)
 
   return kOK;
 }
-THaAnalysisObject::EStatus GEMEvtHandler::Init(const TDatime& date)
+THaAnalysisObject::EStatus THcGEM::Init(const TDatime& date)
 {
   fStatus = kOK;
 
@@ -68,14 +68,14 @@ THaAnalysisObject::EStatus GEMEvtHandler::Init(const TDatime& date)
 
   return kOK;
 }
-Int_t GEMEvtHandler::End( THaRunBase* r)
+Int_t THcGEM::End( THaRunBase* r)
 {
   fGEMAnalyzer->ProcessResults();
   return 0;
 }
-Int_t GEMEvtHandler::DefineVariables( EMode mode )
+Int_t THcGEM::DefineVariables( EMode mode )
 {
-  cout << " In GEMEvtHandler::DefineVariables" << endl;
+  cout << " In THcGEM::DefineVariables" << endl;
   // Define/delete global variables.
 
   if( mode == kDefine && fIsSetup ) return kOK;

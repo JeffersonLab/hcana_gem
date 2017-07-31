@@ -1,9 +1,9 @@
-#ifndef GEMEvtHandler_
-#define GEMEvtHandler_
+#ifndef THcGEM_
+#define THcGEM_
 
 /////////////////////////////////////////////////////////////////////
 //
-//   GEMEvtHandler
+//   THcGEM
 //
 /////////////////////////////////////////////////////////////////////
 
@@ -14,12 +14,12 @@
 #include "EventUpdater.h"
 //#include "VarDef.h"
 
-class GEMEvtHandler : public THaEvtTypeHandler {
+class THcGEM : public THaEvtTypeHandler {
 
 public:
 
-   GEMEvtHandler(const char*, const char*);
-   virtual ~GEMEvtHandler();
+   THcGEM(const char*, const char*);
+   virtual ~THcGEM();
 
    Int_t Analyze(THaEvData *evdata);
    virtual EStatus Init( const TDatime& run_time);
@@ -40,7 +40,7 @@ protected:
 
    Int_t fEvCount;
 
-   ClassDef(GEMEvtHandler,0)
+   ClassDef(THcGEM,0)
 
 
 
