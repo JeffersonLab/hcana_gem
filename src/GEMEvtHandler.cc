@@ -19,7 +19,7 @@ GEMEvtHandler::GEMEvtHandler(const char *name, const char* description)
 }
 GEMEvtHandler::~GEMEvtHandler()
 {
-
+  DefineVariables( kDelete );
 }
 Int_t GEMEvtHandler::Analyze(THaEvData *evdata)
 {
@@ -34,6 +34,8 @@ Int_t GEMEvtHandler::Analyze(THaEvData *evdata)
   // of last word of event
   fHandler->Decode(&rdata[2],ndata-3);
   fUpdateEvent->Update();
+
+  fEvCount++;
 
   return kOK;
 }
@@ -55,9 +57,37 @@ THaAnalysisObject::EStatus GEMEvtHandler::Init(const TDatime& date)
   fHandler = fGEMAnalyzer->GetHandler();
   fUpdateEvent = fParser->GetEventUpdater();
 
+  // Fake variables for testing
+  fEvCount = 0;
+
+  cout << "Calling THaAnalysisObject::Init" << endl;
+  EStatus status;
+  if (status = THaAnalysisObject::Init( date ) ) 
+    return fStatus=status;
+  cout << "Called THaAnalysisObject::Init" << endl;
+
   return kOK;
 }
 Int_t GEMEvtHandler::End( THaRunBase* r)
 {
   fGEMAnalyzer->ProcessResults();
+  return 0;
 }
+Int_t GEMEvtHandler::DefineVariables( EMode mode )
+{
+  cout << " In GEMEvtHandler::DefineVariables" << endl;
+  // Define/delete global variables.
+
+  if( mode == kDefine && fIsSetup ) return kOK;
+  fIsSetup = ( mode == kDefine );
+  
+  RVarDef vars[] = {
+    { "gemevcount", "Evcount as test", "fEvCount" },
+    {0}
+  };
+
+  cout << " Doing DefineVarsFromList" << endl;
+  return DefineVarsFromList( vars, mode);
+}
+
+    

@@ -12,6 +12,7 @@
 #include "GEMEvioParser.h"
 #include "GEMDataHandler.h"
 #include "EventUpdater.h"
+//#include "VarDef.h"
 
 class GEMEvtHandler : public THaEvtTypeHandler {
 
@@ -23,7 +24,10 @@ public:
    Int_t Analyze(THaEvData *evdata);
    virtual EStatus Init( const TDatime& run_time);
    virtual Int_t End( THaRunBase* r=0 );
+   virtual Int_t DefineVariables( EMode mode = kDefine );
+
    void SetConfigFile( const char* name) { fConfigFileName = name; }
+
 
 protected:
 
@@ -33,6 +37,8 @@ protected:
    GEMEvioParser* fParser;
    GEMDataHandler* fHandler;
    EventUpdater* fUpdateEvent;
+
+   Int_t fEvCount;
 
    ClassDef(GEMEvtHandler,0)
 
