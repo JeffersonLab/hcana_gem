@@ -39,6 +39,7 @@ public:
     void GetRunType();
     GEMEvioParser* GetParser() {return parser;}
     GEMDataHandler* GetHandler() {return handler;}
+    GEMTree* GetTree() {return res_tree;}
 
 private:
     std::string file;

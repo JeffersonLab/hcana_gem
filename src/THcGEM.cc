@@ -6,6 +6,7 @@
 #include "THcGEM.h"
 #include "GEMMapping.h"
 #include "GEMConfigure.h"
+#include "GEMTree.h"
 #include "THaCodaData.h"
 #include "THaEvData.h"
 
@@ -38,7 +39,16 @@ Int_t THcGEM::Decode(const THaEvData& evdata)
 Int_t THcGEM::CoarseProcess( TClonesArray& tracks )
 {
   fUpdateEvent->Update();
-  fEvCount++;
+
+  fNHits = fGEMTree->GetNHits(0);
+  fX = fGEMTree->GetXP(0);
+  fY = fGEMTree->GetYP(0);
+  fXCharge = fGEMTree->GetXChargeP(0);
+  fYCharge = fGEMTree->GetYChargeP(0);
+  fXSize = fGEMTree->GetXSizeP(0);
+  fYSize = fGEMTree->GetYSizeP(0);
+  fEnergy = fGEMTree->GetEnergy(0);
+
   return 0;
 
 }
@@ -64,9 +74,7 @@ THaAnalysisObject::EStatus THcGEM::Init(const TDatime& date)
   fParser = fGEMAnalyzer->GetParser();
   fHandler = fGEMAnalyzer->GetHandler();
   fUpdateEvent = fParser->GetEventUpdater();
-
-  // Fake variables for testing
-  fEvCount = 0;
+  fGEMTree = fGEMAnalyzer->GetTree();
 
   cout << "Calling THaNonTrackingDetector::Init" << endl;
   EStatus status;
@@ -74,7 +82,7 @@ THaAnalysisObject::EStatus THcGEM::Init(const TDatime& date)
     return fStatus=status;
   cout << "Called THaNonTrackingDetector::Init" << endl;
 
-  return kOK;
+  return fStatus = kOK;
 }
 Int_t THcGEM::ReadDatabase( const TDatime& date )
 {
@@ -94,7 +102,14 @@ Int_t THcGEM::DefineVariables( EMode mode )
   fIsSetup = ( mode == kDefine );
   
   RVarDef vars[] = {
-    { "gemevcount", "Evcount as test", "fEvCount" },
+    { "nhits", "Number of GEM Clusters", "fNHits"},
+    { "x", "X", "fX" },
+    { "y", "Y", "fY" },
+    { "x_charge", "X Charge", "fXCharge" },
+    { "y_charge", "Y Charge", "fYCharge" },
+    { "x_size", "X Size", "fXSize" },
+    { "y_size", "Y Size", "fYSize" },
+    { "energy", "Cluster Energy", "fEnergy" },
     {0}
   };
 

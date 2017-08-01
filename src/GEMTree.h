@@ -51,6 +51,15 @@ public:
     void InitGEMTree(int ndet);
     void InitTDCGroup();
 
+    int GetNHits(int idet) {return nhits[idet];}
+    float* GetXP(int idet) {return x[idet];}
+    float* GetYP(int idet) {return y[idet];}
+    float* GetXChargeP(int idet) {return x_charge[idet];}
+    float* GetYChargeP(int idet) {return y_charge[idet];}
+    float* GetXSizeP(int idet) {return x_size[idet];}
+    float* GetYSizeP(int idet) {return y_size[idet];}
+    float* GetEnergy(int idet) {return energy[idet];}
+
 private:
     TTree *gem_tree;
 

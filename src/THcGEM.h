@@ -44,8 +44,16 @@ protected:
    GEMEvioParser* fParser;
    GEMDataHandler* fHandler;
    EventUpdater* fUpdateEvent;
+   GEMTree* fGEMTree;
 
-   Int_t fEvCount;
+   int fNHits;
+   float* fX; //[fNHits]
+   float* fY; //[fNHits]
+   float* fXCharge; //[fNHits]
+   float* fYCharge; //[fNHits]
+   float* fXSize; //[fNHits]
+   float* fYSize; //[fNHits]
+   float* fEnergy; //[fNHits]
 
    ClassDef(THcGEM,0)
 
