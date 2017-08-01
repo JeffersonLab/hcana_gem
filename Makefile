@@ -34,19 +34,17 @@ libs    := $(shell root-config --libs)
 glibs   := $(shell root-config --glibs)
 cflags  := $(shell root-config --cflags)
 
-#incfile := -I/home/xbai/w/coda/common/include -I./include
-#incfile := -I/home/daq/GEM_Online_Viewer/coda/common/include -I./include
-incfile := -I/home/saw/ROOT/GEM_Online_Viewer/coda/common/include -I./include
+incfile := -I/home/siplu/GIT/JLAB/Coda/CODA/common/include -I./include
 
-
-flags   := -O3 -g -std=c++11 $(glibs) $(cflags) $(incfile) -L/home/saw/ROOT/GEM_Online_Viewer/coda/Linux-x86_64/lib -levio -levioxx -lexpat
+###Latif: The order of -levioxx mattered on some systems. I had to place it before other libs to compile successfully.
+flags   := -O3 -g -std=c++11 $(glibs) $(cflags) $(incfile) -L/home/siplu/GIT/JLAB/Coda/CODA/Linux-x86_64/lib -levioxx -levio  -lexpat
 
 $(Target) : $(OBJS)
-	@$(cc) -o $(Target) $(OBJS) $(flags)
+	$(cc) -o $(Target) $(OBJS) $(flags)
 
 $(OBJDIR)/%.o: ./src/%.cc
 	@echo Compiling $< ...
-	@$(cc) -c $< -o $@ $(flags)
+	$(cc) -c $< -o $@ $(flags)
 
 clean:
 	@rm -f $(Target)
