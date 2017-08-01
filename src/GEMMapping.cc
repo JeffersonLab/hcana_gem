@@ -49,19 +49,19 @@ void GEMMapping::SetCartesianStripsReadoutMap(TString readoutBoard, TString dete
 TString GEMMapping::GetAPV(TString detPlane, Int_t fecId, Int_t adcCh, Int_t apvNo, Int_t apvIndex, Int_t apvID) {
     stringstream out ;
     out << apvID ;
-    TString apvIDStr = out.str();
+    TString apvIDStr = out.str().c_str();
     out.str("") ;
     out << fecId ;
-    TString fecIDStr = out.str();
+    TString fecIDStr = out.str().c_str();
     out.str("") ;
     out <<  adcCh;
-    TString adcChStr = out.str();
+    TString adcChStr = out.str().c_str();
     out.str("") ;
     out <<  apvNo ;
-    TString apvNoStr = out.str();
+    TString apvNoStr = out.str().c_str();
     out.str("") ;
     out <<  apvIndex ;
-    TString apvIndexStr = out.str();
+    TString apvIndexStr = out.str().c_str();
     out.str("") ;
     TString apvName = "apv" + apvNoStr + "_Id" + apvIDStr + "_adcCh" + adcChStr + "_FecId" + fecIDStr + "_" + detPlane ;
     return apvName ;
