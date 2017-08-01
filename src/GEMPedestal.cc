@@ -68,8 +68,8 @@ void GEMPedestal::BookHistos()
 	    stringstream apv;
 	    apv << apvKey;
 	    out << chNo;
-	    TString chNoStr = out.str();
-	    TString apvStr = apv.str();
+	    TString chNoStr = out.str().c_str();
+	    TString apvStr = apv.str().c_str();
 	    TString noise = "hNoise_" + apvStr+ "_" + chNoStr;
 	    TString offset = "hOffset_" +apvStr+ "_"+ chNoStr;
 	    vStripNoiseHistos.push_back( new TH1F(noise, noise, 8097, -4048, 4048) ); 
@@ -82,7 +82,7 @@ void GEMPedestal::BookHistos()
     {
 	stringstream out;
 	out << apvKey;
-	TString outStr = out.str();
+	TString outStr = out.str().c_str();
 	TString offset = "offset_APV_#:" + outStr;
 	TString noise = "noise_APV_#:" + outStr;
 	int fAPVID = mapping->GetAPVIDFromAPVNo(apvKey);
@@ -92,12 +92,12 @@ void GEMPedestal::BookHistos()
 	TString noise_title = noise;
 	out.str("");
 	out << fFECID;
-	outStr = out.str();
+	outStr = out.str().c_str();
 	offset_title = offset_title+"_FEC_"+outStr;
 	noise_title = noise_title+"_FEC_"+outStr;
 	out.str("");
 	out << fADCCh;
-	outStr = out.str();
+	outStr = out.str().c_str();
 	offset_title = offset_title+"_ADCCh_"+outStr;
 	noise_title = noise_title+"_ADCCh_"+outStr;
 	vApvPedestalOffset.push_back( new TH1F(offset, offset_title, 128, -0.5, 127.5)  );
@@ -193,7 +193,7 @@ void GEMPedestal::LoadPedestal()
     {
 	stringstream out;
 	out << i;
-	TString outStr = out.str();
+	TString outStr = out.str().c_str();
 	TString offset = "offset_APV_#:" + outStr;
 	TString noise =  "noise_APV_#:" + outStr;
 	vApvPedestalOffset.push_back( (TH1F*) _file->Get( offset )  );
