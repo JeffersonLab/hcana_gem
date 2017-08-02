@@ -13,15 +13,17 @@ with "make."
 This will build a module libGEM.so.
 
 To do an analysis that includes the GEM, add the following to the replay
-script, correcting paths and event types as needed:
+script, correcting paths and spectrometer apparatuses as needed:
 
-  GEMEvtHandler* gem = new GEMEvtHandler("GEM","GEM data");
-  gem->SetEvtType(1);
+  THcGEM* gem = new THcGEM("gem","GEM data");
   gem->SetConfigFile("../hcana_gem/config/gem_hcana.cfg");
-  gHaEvtHandlers->Add(gem);
+  SHMS->AddDetector(gem);
 
-After starting hcana, but before running the replay script, load the GEM
-analysis software with:
+At the top of your replay script add these lines:
 
-  gSystem->Load("../hcana_gem/src/libGEM.so");
+R__ADD_LIBRARY_PATH(../GEM_Offline_Program/src)
+R__LOAD_LIBRARY(libGEM.so);
+
+again, adjusting the library path as needed.
+
 
