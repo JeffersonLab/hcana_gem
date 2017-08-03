@@ -18,7 +18,8 @@ class GEMHit : public TObject
 public:
     GEMHit() ;
     GEMHit(Int_t hitID, Int_t apvID, Int_t chNo, 
-           Int_t zeroSupCut, TString isHitMaxOrTotalADCs) ;
+           Int_t zeroSupCut, TString isHitMaxOrTotalADCs,
+	   Float_t pedestal_noise);
     ~GEMHit() ;
 
     void TimingFindPeakTimeBin() ;
@@ -43,6 +44,7 @@ public:
     Int_t StripMapping(Int_t chNo) ;
     Int_t APVchannelCorrection(Int_t chNo) ;
     Int_t PRadStripMapping(Int_t chNo) ;
+    Int_t HallCStripMapping(Int_t chNo);
 
     Int_t GetSignalPeakTimeBin() 
     {
@@ -52,6 +54,7 @@ public:
 
     TString GetPlane() { return fPlane; }
     Float_t GetPlaneSize() { return fPlaneSize; }
+    Float_t GetPedestalNoise(){return fHitPedestalNoise;};
 
     TString GetDetector() { return fDetector; }
     TString GetDetectorType() { return fDetectorType; }

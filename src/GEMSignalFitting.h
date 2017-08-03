@@ -9,6 +9,8 @@
 #define SIGNAL_FITTING_h
 
 #include <vector>
+#include <TH1F.h>
+#include <TH2F.h>
 
 class GEMOnlineHitDecoder;
 class GEMHit;
@@ -24,7 +26,10 @@ public:
 
     void Fit();
     void SetTSADC();
-    void FitGraph(const std::vector<double> &);
+    void FitGraphChi2(const std::vector<double> &);
+    void FitGraphNLL(const std::vector<double> & dat, const double & noise);
+
+    void Write();
 
 
 private:
@@ -32,6 +37,13 @@ private:
 
     std::vector<double> hit_ts_adc;
     std::vector<double> cluster_ts_adc;
+
+    TH1F* h_start;
+    TH1F* h_shape;
+    TH1F* h_chisquare;
+    TH2F* h_shape_max;
+
+    TH1F* h_max_adc;
 };
 
 #endif

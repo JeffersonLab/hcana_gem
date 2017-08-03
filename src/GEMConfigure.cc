@@ -167,6 +167,11 @@ void GEMConfigure::LoadConfigure()
 		tokens = strtok(NULL, " :,");
 		nTS = atoi(tokens);
 	    }
+	    else if(s == "PEDESTALTIMEBIN")
+	    {
+		tokens = strtok(NULL, " :,");
+		nTS_pedestal = atoi(tokens);
+	    }
 	    else
 	    {
 		tokens = strtok(NULL, " :,");

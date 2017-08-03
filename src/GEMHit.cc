@@ -3,7 +3,7 @@
 #include <TH1.h>
 #include <TF1.h>
 
-GEMHit::GEMHit(Int_t hitID, Int_t apvID, Int_t chNo, Int_t zeroSupCut, TString isHitMaxOrTotalADCs) 
+GEMHit::GEMHit(Int_t hitID, Int_t apvID, Int_t chNo, Int_t zeroSupCut, TString isHitMaxOrTotalADCs, Float_t pedestal_noise) 
 {
     fTimeBinADCs.clear();
     fHitADCs = -10000 ;
@@ -28,6 +28,7 @@ GEMHit::GEMHit(Int_t hitID, Int_t apvID, Int_t chNo, Int_t zeroSupCut, TString i
     fReadoutBoard      = mapping->GetReadoutBoardFromDetector(fDetector) ;
     fPlaneSize         = mapping->GetPlaneSize(fPlane);
     fNbOfAPVsOnPlane   = mapping->GetNbOfAPVsOnPlane(fPlane);
+    fHitPedestalNoise  = pedestal_noise;
     fAPVChNo = chNo ;
     SetStripNo() ;
     ComputePosition() ;
@@ -132,6 +133,7 @@ Int_t GEMHit::StripMapping(Int_t chNo)
 {
     chNo = APVchannelCorrection(chNo) ;
     if (fDetectorType == "PRADGEM") chNo = PRadStripMapping(chNo) ;
+    if (fDetectorType == "HALLCGEM")chNo = HallCStripMapping(chNo);
     return chNo ;
 }
 
@@ -157,4 +159,16 @@ Int_t GEMHit::PRadStripMapping(Int_t chNo)
 	    else           chNo = 127 + (65 - chNo) / 2 ;
     }
     return chNo ;
+}
+
+Int_t GEMHit::HallCStripMapping(Int_t chNo)
+{
+    // hall c gem strip mapping
+
+    // version 2
+    if(chNo % 4 == 0) chNo = chNo + 2;
+    else if(chNo % 4 == 1) chNo = chNo - 1;
+    else if(chNo % 4 == 2) chNo = chNo + 1;
+    else chNo = chNo - 2;
+    return chNo;
 }

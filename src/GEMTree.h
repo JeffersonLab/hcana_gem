@@ -71,7 +71,7 @@ private:
     std::string hycal_group[9];
 
     // max 4 detectors
-    int nhits[NDETECTOR];
+    int nhits[NDETECTOR] = {0, 0};
     float x[NDETECTOR][_nhits];
     float y[NDETECTOR][_nhits];
     float x_charge[NDETECTOR][_nhits];

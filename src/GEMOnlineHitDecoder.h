@@ -80,6 +80,7 @@ private:
     GEMPedestal * ped;
     GEMConfigure *config;
     TString fAPVStatus;
+    TString fDetectorType;
 
     std::map<Int_t, GEMHit*> fListOfHits;
     std::map<Int_t, GEMHit*> fListOfHitsClean;

@@ -103,6 +103,7 @@ void GEMPhysics::CharactorizeOverlapPhysics()
 void GEMPhysics::SavePhysResults()
 {
     //rst_tree->WriteToDisk();
+    sig_fitting->Write();
 }
 
 void GEMPhysics::SetEvtID(unsigned int id)

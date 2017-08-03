@@ -130,6 +130,17 @@ void GEMTree::PushDetector(int nthDet, std::vector<GEMClusterStruct> Gem)
     }
 }
 
+void GEMTree::FillGEMTree()
+{
+    if( ! empty_gem_event){
+	gem_tree->Fill();
+        //cout<<nhits[0]<<", "<<nhits[1]<<", "<<nhits[2]<<", "<<nhits[3]<<endl;
+        //getchar();
+    }
+    empty_gem_event = true;
+}
+
+
 void GEMTree::PushTDCValue(unordered_multimap<string, double> &tdc_map)
 {
     vector<float> scin_val[2];
@@ -176,15 +187,6 @@ void GEMTree::PushTDCValue(unordered_multimap<string, double> &tdc_map)
 	    index++;
 	}
     }
-}
-
-
-void GEMTree::FillGEMTree()
-{
-    if( ! empty_gem_event){
-	gem_tree->Fill();
-    }
-    empty_gem_event = true;
 }
 
 // ------------------------------- epics tree -------------------------------------
