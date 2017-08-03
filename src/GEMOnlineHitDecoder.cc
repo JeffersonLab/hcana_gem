@@ -565,12 +565,14 @@ void GEMOnlineHitDecoder::ComputePlaneCluster(TString &plane, list<GEMHit*> &hit
 	new_cluster->AddHit( (*hit_it) );
 
 	// for single hit cluster
-	if( (*hit_it)->GetStripNo() - (*next)->GetStripNo() == -1 ){
+	if(next != hitsFromPlane.end()) {
+	  if( (*hit_it)->GetStripNo() - (*next)->GetStripNo() == -1 ){
 	    ++hit_it;
 	    ++next;
+	  }
 	}
 
-	if( hit_it != hitsFromPlane.end())
+	if( hit_it != hitsFromPlane.end() && next != hitsFromPlane.end() )
 	{
 	    while( (*hit_it)->GetStripNo() - (*next)->GetStripNo() == -1)
 	    {
@@ -592,12 +594,16 @@ void GEMOnlineHitDecoder::ComputePlaneCluster(TString &plane, list<GEMHit*> &hit
 		++hit_it;
 		++next;
 
-		if( hit_it == hitsFromPlane.end() )
+		if( next == hitsFromPlane.end() )
 		    break;
 	    }
 
-	    if( (*hit_it)->GetStripNo() - (*next)->GetStripNo() != -1)
+	    if(next == hitsFromPlane.end()) {
+	      new_cluster -> AddHit(*hit_it);
+	    } else {
+	      if( (*hit_it)->GetStripNo() - (*next)->GetStripNo() != -1)
 		new_cluster -> AddHit(*hit_it);
+	    }
 	}
 	if(new_cluster->IsGoodCluster()){
 	    new_cluster->ComputeClusterPosition();
