@@ -572,10 +572,11 @@ void GEMOnlineHitDecoder::ComputePlaneCluster(TString &plane, list<GEMHit*> &hit
 	  }
 	}
 
-	if( hit_it != hitsFromPlane.end() && next != hitsFromPlane.end() )
+	if( hit_it != hitsFromPlane.end() )
 	{
-	    while( (*hit_it)->GetStripNo() - (*next)->GetStripNo() == -1)
+	    while( next != hitsFromPlane.end())
 	    {
+		if((*hit_it)->GetStripNo() - (*next)->GetStripNo() != -1) break;
 		if(extremum){
 		    if( (*next)->GetHitADCs()  - (*hit_it)->GetHitADCs() > NOISE_SIGMA){
 			(*hit_it)->SetHitADCs( (*hit_it)->GetHitADCs()/2);
@@ -594,8 +595,6 @@ void GEMOnlineHitDecoder::ComputePlaneCluster(TString &plane, list<GEMHit*> &hit
 		++hit_it;
 		++next;
 
-		if( next == hitsFromPlane.end() )
-		    break;
 	    }
 
 	    if(next == hitsFromPlane.end()) {
