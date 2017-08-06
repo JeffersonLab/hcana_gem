@@ -59,7 +59,7 @@ CC           := $(shell root-config --cc)
 INCLUDES      = $(addprefix -I, $(INCDIRS) ) -I$(shell pwd)
 
 USERLIB       = lib/lib$(PACKAGE).so
-USERDICT      = obj/$(PACKAGE)Dict
+USERDICT      = lib/$(PACKAGE)Dict
 
 LIBS          =
 GLIBS         =
@@ -102,8 +102,8 @@ endif
 DISTFILE      = $(PKG).tar.gz
 
 #------------------------------------------------------------------------------
-OBJFILES           = $(SRCFILES:.cc=.o)
-OBJ = $(addprefix obj/,$(OBJFILES))
+OBJFILES      = $(SRCFILES:.cc=.o)
+OBJ	      = $(addprefix obj/,$(OBJFILES))
 HDR           = $(SRC:.cc=.h)
 DEP           = $(SRC:.cc=.d)
 OBJS          = $(OBJ) $(USERDICT).o
@@ -129,7 +129,7 @@ install:	all
 #		cp $(USERLIB) $(LIBDIR)
 
 clean:
-		rm -f obj/*.o obj/*.pcm *~ $(USERLIB) $(USERDICT).*
+		rm -f obj/*.o  *~ $(USERLIB) $(USERDICT).*
 
 realclean:	clean
 		rm -f *.d
