@@ -105,9 +105,9 @@ void GEMPedestal::BookHistos()
     }
 
     // book histograms for overall distribution
-    hAllStripNoise = new TH1F("hAllStripNoise", "Overall Noise Distribution", 1000, 0, 1000);
-    hAllXStripNoise = new TH1F("hAllXStripNoise", "Overall X Direction Noise Distribution", 1000, 0, 1000);
-    hAllYStripNoise = new TH1F("hAllYStripNoise", "Overall Y Direction Noise Distribution", 1000, 0, 1000);
+    hAllStripNoise = new TH1F("hAllStripNoise", "Overall Noise Distribution", 1000, 0, 200);
+    hAllXStripNoise = new TH1F("hAllXStripNoise", "Overall X Direction Noise Distribution", 1000, 0, 200);
+    hAllYStripNoise = new TH1F("hAllYStripNoise", "Overall Y Direction Noise Distribution", 1000, 0, 200);
 
 }
 

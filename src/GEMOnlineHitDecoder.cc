@@ -43,8 +43,8 @@ GEMOnlineHitDecoder::GEMOnlineHitDecoder()
     mapping = GEMMapping::GetInstance();
 
     // cluster
-    fMinClusterSize = 1;
-    fMaxClusterSize = 20;
+    fMinClusterSize = 2;
+    fMaxClusterSize = 10;
     fIsClusterMaxOrTotalADCs = "maximumADCs";
     //fIsClusterMaxOrTotalADCs = "totalADCs";
     fIsGoodClusterEvent = kFALSE;
@@ -139,21 +139,24 @@ void GEMOnlineHitDecoder::EventHandler(unordered_map<int, vector<int> > & srsSin
     {
 	fAPVID = i.first;
 	fADCChannel = fAPVID & 0xf;
-	fFECID = (fAPVID >> 4)&0xf;
-	if(IsADCchannelActive())
-	{
-	    fRawData16bits.clear();
-	    fRawData16bits = i.second;
+        fFECID = (fAPVID >> 4)&0xf;
+        fDetectorType = mapping->GetDetectorTypeFromDetector(
+                mapping->GetDetectorFromPlane(mapping->GetPlaneFromAPVID(fAPVID))
+                );
+        if(IsADCchannelActive())
+        {
+            fRawData16bits.clear();
+            fRawData16bits = i.second;
 
-	    FillPedestal();
+            FillPedestal();
 
-	    assert( fRawData16bits.size() > 0 );
+            assert( fRawData16bits.size() > 0 );
 
-	    if( ! specialAPV )
-		APVEventDecoder();
-	    else
-		APVEventSplitChannelsDecoder();
-	}
+            if( ! specialAPV )
+                APVEventDecoder();
+            else
+                APVEventSplitChannelsDecoder();
+        }
     }
     GetListOfHitsFromPlanes();
     GetListOfHitsCleanFromPlanes();
@@ -168,20 +171,20 @@ void GEMOnlineHitDecoder::APVFindStart()
     int Size = fRawData16bits.size();
     for(idata = 0; idata != Size; idata++) 
     {
-	if (fRawData16bits[idata] < fAPVHeaderLevel) 
-	{
-	    idata++ ;
-	    if (fRawData16bits[idata] < fAPVHeaderLevel) 
-	    {
-		idata++ ;
-		if (fRawData16bits[idata] < fAPVHeaderLevel) 
-		{
-		    idata += 10;
-		    fStartData = idata ;
-		    idata = Size-1 ;
-		}
-	    }
-	}
+        if (fRawData16bits[idata] < fAPVHeaderLevel) 
+        {
+            idata++ ;
+            if (fRawData16bits[idata] < fAPVHeaderLevel) 
+            {
+                idata++ ;
+                if (fRawData16bits[idata] < fAPVHeaderLevel) 
+                {
+                    idata += 10;
+                    fStartData = idata ;
+                    idata = Size-1 ;
+                }
+            }
+        }
     }
 }
 
@@ -264,7 +267,7 @@ void GEMOnlineHitDecoder::APVZeroSuppression()
 		Int_t hitID = (fAPVKey << 8) | i;
 		if(!fListOfHitsClean[hitID])
 		{
-		    GEMHit * hit = new GEMHit(hitID, fAPVID, i, fZeroSupCut, fIsHitMaxOrTotalADCs) ;
+                    GEMHit * hit = new GEMHit(hitID, fAPVID, i, fZeroSupCut, fIsHitMaxOrTotalADCs, fPedestalNoises[i]) ;
 		    fListOfHitsClean[hitID] = hit ;
 		}
 		for(int k=0;k<nbTimeBin;k++)
@@ -279,7 +282,7 @@ void GEMOnlineHitDecoder::APVZeroSuppression()
 	    Int_t hitID = (fAPVKey << 8) | i;
 	    if(!fListOfHits[hitID])
 	    {
-		GEMHit * hit = new GEMHit(hitID, fAPVID, i, fZeroSupCut, fIsHitMaxOrTotalADCs) ;
+                GEMHit * hit = new GEMHit(hitID, fAPVID, i, fZeroSupCut, fIsHitMaxOrTotalADCs,fPedestalNoises[i]) ;
 		fListOfHits[hitID] = hit ;
 	    }
 	    for(int k=0;k<nbTimeBin;k++)
@@ -535,18 +538,22 @@ void GEMOnlineHitDecoder::ComputePlaneCluster(TString &plane, list<GEMHit*> &hit
     list<GEMHit*>::iterator hit_it = hitsFromPlane.begin();
     list<GEMHit*>::iterator next = hit_it;
 
-    for(hit_it;hit_it!=hitsFromPlane.end();++hit_it)
+    for(hit_it=hitsFromPlane.begin();hit_it!=hitsFromPlane.end();++hit_it)
     {
 	++next;
-	// remove first 16 strips( apv index 0 on X side) and last 16 strips (apv index 10 on X side)
-	if( plane.Contains("X")){
-	    if( (*hit_it)->GetStripNo() < 16 )
-		continue;
-	    if( (*hit_it)->GetStripNo() > 1391 )
-		continue;
-	    if( (*next)->GetStripNo()>1391)
-		next = hitsFromPlane.end();
-	}
+
+        if(fDetectorType.Contains("PRAD")){
+            // remove first 16 strips( apv index 0 on X side) and last 16 strips (apv index 10 on X side)
+            // for PRad chambers
+            if( plane.Contains("X")){
+                if( (*hit_it)->GetStripNo() < 16 )
+                    continue;
+                if( (*hit_it)->GetStripNo() > 1391 )
+                    continue;
+                if( (*next)->GetStripNo()>1391)
+                    next = hitsFromPlane.end();
+            }
+        }
 
 	Bool_t extremum = kFALSE;
 
@@ -558,15 +565,18 @@ void GEMOnlineHitDecoder::ComputePlaneCluster(TString &plane, list<GEMHit*> &hit
 	new_cluster->AddHit( (*hit_it) );
 
 	// for single hit cluster
-	if( (*hit_it)->GetStripNo() - (*next)->GetStripNo() == -1 ){
+	if(next != hitsFromPlane.end()) {
+	  if( (*hit_it)->GetStripNo() - (*next)->GetStripNo() == -1 ){
 	    ++hit_it;
 	    ++next;
+	  }
 	}
 
-	if( hit_it != hitsFromPlane.end())
+	if( hit_it != hitsFromPlane.end() )
 	{
-	    while( (*hit_it)->GetStripNo() - (*next)->GetStripNo() == -1)
+	    while( next != hitsFromPlane.end())
 	    {
+		if((*hit_it)->GetStripNo() - (*next)->GetStripNo() != -1) break;
 		if(extremum){
 		    if( (*next)->GetHitADCs()  - (*hit_it)->GetHitADCs() > NOISE_SIGMA){
 			(*hit_it)->SetHitADCs( (*hit_it)->GetHitADCs()/2);
@@ -585,12 +595,14 @@ void GEMOnlineHitDecoder::ComputePlaneCluster(TString &plane, list<GEMHit*> &hit
 		++hit_it;
 		++next;
 
-		if( hit_it == hitsFromPlane.end() )
-		    break;
 	    }
 
-	    if( (*hit_it)->GetStripNo() - (*next)->GetStripNo() != -1)
+	    if(next == hitsFromPlane.end()) {
+	      new_cluster -> AddHit(*hit_it);
+	    } else {
+	      if( (*hit_it)->GetStripNo() - (*next)->GetStripNo() != -1)
 		new_cluster -> AddHit(*hit_it);
+	    }
 	}
 	if(new_cluster->IsGoodCluster()){
 	    new_cluster->ComputeClusterPosition();

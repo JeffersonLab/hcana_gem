@@ -1,4 +1,4 @@
-SRC =      GEMEvtHandler.cc \
+SRC =      THcGEM.cc \
            GEMAnalyzer.cc \
 	   GEMDataHandler.cc \
 	   GEMMapping.cc \

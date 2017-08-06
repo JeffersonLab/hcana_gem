@@ -40,6 +40,7 @@ private:
     float fApvHeaderLevel;
     int NCH;
     int fTimeSample;
+    int fTimeSample_pedestal=0;
 
     int fAPVID;
     TString fAPVStatus;

@@ -37,6 +37,9 @@ public:
     // daq setting
     int nTS;
 
+    // use how many time samples to calculate pedestal
+    int nTS_pedestal;
+
     // input files to be analyzed...
     string fileList[1000];
     string fileHeader;

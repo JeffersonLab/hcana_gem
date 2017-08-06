@@ -68,7 +68,18 @@ void GEMRawPedestal::SetGEMConfigure(GEMConfigure *c)
 {
     config = c;
     fTimeSample = config->nTS;
+    fTimeSample_pedestal = config->nTS_pedestal;
     cout<<"Time sample from configure: "<<fTimeSample<<endl;
+
+    if(fTimeSample_pedestal > fTimeSample){
+        cout<<"GEMRawPedestal: Error:"<<endl
+            <<"time bins required for pedestal calculation: "
+            << fTimeSample_pedestal<<endl
+            <<"is bigger than time bins in data: "
+            <<fTimeSample<<endl;
+
+        exit(-1);
+    }
 }
 
 void GEMRawPedestal::ComputeEventPedestal(unordered_map<int, vector<int> > r_map)
@@ -152,7 +163,7 @@ void GEMRawPedestal::ApvEventDecode()
     std::list<float> commonModeOffset_split;
 
     int nTB = 0;
-    while( idata < size )
+    while( idata < size  && nTB < fTimeSample_pedestal)
     {
 	//---------------------- --------------------------------//
 	//   look for apv header  => 3 consecutive words < header//
@@ -170,7 +181,9 @@ void GEMRawPedestal::ApvEventDecode()
 			idata+=10; //8 address + 1 error bit
 			startDataFlag = 1;
 			nTB++;
-			continue;
+                        //continue;
+                        // before here's a continue; why put continue; here?
+                        // big bug? BUG???, yes, remove this continue; !!!!
 		    }
 		}
 	    }
@@ -217,6 +230,7 @@ void GEMRawPedestal::ApvEventDecode()
     }
     //debug
     //cout<<"APVEventDecode, Time bins found:  "<<nTB<<endl;
+    //cout<<"multi map data size: "<<mApvTimeBinData.size()<<endl;
 }
 
 int GEMRawPedestal::CheckApvTimeSample()
