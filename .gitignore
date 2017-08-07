@@ -6,7 +6,7 @@ obj/*
 lib/*
 plotevent.root
 root_file/*
-src/GEMDict.cc
+lib/GEMDict.cc
 
 # Patterns
 *.[oad]

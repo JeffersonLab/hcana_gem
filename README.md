@@ -6,7 +6,7 @@ This is the GEM detector library which is used to analyze GEM data that is part 
 Dependency
 ----------
 
-- To use with ```hcana```, first install and compile an up to data copy of hcana and source the ```setup.sh``` or ```setup.csh``` script in ```hcana```. Setup instruction for ```hcana``` can be found (here)[1] and (here)[2]. You will also need a copy of ```hallc_replay``` which can be found (here)[3].
+- To use with ```hcana```, first install and compile an up to data copy of hcana and source the ```setup.sh``` or ```setup.csh``` script in ```hcana```. Setup instruction for ```hcana``` can be found [here][1] and [here][2]. You will also need a copy of ```hallc_replay``` which can be found [here][3].
 
 Compilation and Setup
 ---------------------
@@ -44,13 +44,13 @@ Also you need to add ```block P.gem.*``` to the ```pstackana_production.def``` f
 You can try running the example scripts inside the directory ```examples/```.
 
 
-Running as Executable
---------------------
+Running as an Executable
+-------------------------
 To compile the library as an independent executable that provides access to GEM data only (useful for testing GEM), use the other ```Makefile``` named ```MakefileExe``. Change the include and library path as required and compile as:
 ```
 make -f MakefileExe
 ```
-The executable requires the ```EVIO``` library installed and sourced. Instruction for EVIO library can be found [4](here). 
+The executable requires the ```EVIO``` library installed and sourced. Instruction for EVIO library can be found [here][4]. 
 
 
 [1]:https://github.com/JeffersonLab/hcana
