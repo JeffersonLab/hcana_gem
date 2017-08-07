@@ -37,7 +37,7 @@ cflags  := $(shell root-config --cflags)
 incfile := -I/home/siplu/GIT/JLAB/Coda/CODA/common/include -I./include
 
 ###Latif: The order of -levioxx mattered on some systems. I had to place it before other libs to compile successfully.
-flags   := -O3 -g -std=c++11 $(glibs) $(cflags) $(incfile) -L/home/siplu/GIT/JLAB/Coda/CODA/Linux-x86_64/lib -levioxx -levio  -lexpat
+flags   := -O3 -g -std=c++11 $(glibs) $(cflags) $(incfile) -L/home/siplu/GIT/JLAB/Coda/CODA/Linux-x86_64/lib -levioxx -levio  -lexpat -lMinuit
 
 $(Target) : $(OBJS)
 	$(cc) -o $(Target) $(OBJS) $(flags)

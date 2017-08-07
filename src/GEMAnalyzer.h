@@ -30,7 +30,7 @@ public:
     GEMAnalyzer(GEMConfigure* config);
     ~GEMAnalyzer();
 
-    void Init(GEMConfigure* config);
+    void Init(GEMConfigure* config, bool saveRootFile = false);
     void ProcessFiles();
     void Process();
     void SetDataHandler();

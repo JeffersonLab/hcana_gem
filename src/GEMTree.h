@@ -13,8 +13,8 @@
 #include <cstring>
 #include "datastruct.h"
 #include <unordered_map>
-
-#define NDETECTOR 2
+#include <TString.h>
+#define NDETECTOR 1
 
 class TTree;
 class TFile;
@@ -29,7 +29,7 @@ public:
     ~GEMTree();
     void WriteToDisk();
     void SetGEMConfigure(GEMConfigure *con);
-
+    void SetFilePath(TString fileName);
 private:
     TFile *file;
     GEMConfigure *configure;
@@ -71,7 +71,7 @@ private:
     std::string hycal_group[9];
 
     // max 4 detectors
-    int nhits[NDETECTOR] = {0, 0};
+    int nhits[NDETECTOR] = {0};
     float x[NDETECTOR][_nhits];
     float y[NDETECTOR][_nhits];
     float x_charge[NDETECTOR][_nhits];

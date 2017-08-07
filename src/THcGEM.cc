@@ -90,7 +90,7 @@ Int_t THcGEM::ReadDatabase( const TDatime& date )
 }
 Int_t THcGEM::End( THaRunBase* r)
 {
-  fGEMAnalyzer->ProcessResults();
+    //fGEMAnalyzer->ProcessResults(); //no longer necessary from hcana :Latif
   return 0;
 }
 Int_t THcGEM::DefineVariables( EMode mode )

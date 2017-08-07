@@ -3,6 +3,7 @@
 # Auto generated files
 main
 obj/*
+lib/*
 plotevent.root
 root_file/*
 src/GEMDict.cc

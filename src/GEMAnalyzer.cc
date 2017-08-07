@@ -48,13 +48,13 @@ GEMAnalyzer::GEMAnalyzer()
     GEMConfigure *config = new GEMConfigure();
     config->LoadConfigure();
 
-    Init(config);
+    Init(config, true);
 }
 GEMAnalyzer::GEMAnalyzer(GEMConfigure* config)
 {
     Init(config);
 }
-void GEMAnalyzer::Init(GEMConfigure* config)
+void GEMAnalyzer::Init(GEMConfigure* config, bool saveRootFile)
 {
     configure = config;
 
@@ -62,6 +62,8 @@ void GEMAnalyzer::Init(GEMConfigure* config)
     pedestal -> SetGEMConfigure(configure);
 
     res_tree = new GEMTree();
+    if(saveRootFile)
+        res_tree->SetFilePath(config->phys_results_path.c_str());
     res_tree->SetGEMConfigure(configure);
 
     parser = new GEMEvioParser();

@@ -19,8 +19,12 @@ using namespace std;
 GEMTree::GEMTree()
 {
     TH1::AddDirectory(kFALSE);
-    file = new TFile("root_file/res.root", "recreate");
     event_id = 0;
+}
+
+void GEMTree::SetFilePath(TString fileName)
+{
+    file = new TFile(fileName, "recreate");
 }
 
 void GEMTree::WriteToDisk()
@@ -38,7 +42,7 @@ void GEMTree::SetGEMConfigure(GEMConfigure * c)
     configure = c;
 
     // init res tree
-    this -> InitGEMTree(1); // 2 gem detectors
+    this -> InitGEMTree(1); // 1 gem detectors
     this -> InitEpicsTree();
 }
 
@@ -102,7 +106,7 @@ void GEMTree::PushData(vector<GEMClusterStruct> &gem1,
 	unordered_multimap<string, double> &tdc_map)
 {
     PushDetector(0, gem1);
-    PushDetector(1, gem2);
+    //PushDetector(1, gem2);
     PushTDCValue(tdc_map);
 }
 
