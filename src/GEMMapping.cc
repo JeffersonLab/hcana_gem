@@ -389,6 +389,22 @@ Int_t GEMMapping::GetPRadStripMapping(Int_t apvID, Int_t chNo) {
     return chNo ;
 }
 
+//==================== Latif: ****TENTATIVE MAP SUBJECT TO VERIFICATION**** =========================
+Int_t GEMMapping::GetHallCStripMapping(Int_t apvID, Int_t chNo) {
+
+    //------> To be checked if there is any dependence on apvID : Latif
+    
+    //------------ APV25 Internal Channel Mapping
+    chNo = (32 * (chNo%4)) + (8 * (Int_t)(chNo/4)) - (31 * (Int_t)(chNo/16)) ;
+
+    if(chNo % 4 == 0) chNo = chNo + 2;
+    else if(chNo % 4 == 1) chNo = chNo - 1;
+    else if(chNo % 4 == 2) chNo = chNo + 1;
+    else chNo = chNo - 2;
+    return chNo;    
+}
+
+
 // Get Bank IDs 
 set<int> GEMMapping::GetBankIDSet(){
     set<int> fec;

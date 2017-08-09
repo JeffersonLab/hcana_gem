@@ -33,7 +33,7 @@ R__LOAD_LIBRARY(libGEM.so);
 
 Doing the Analysis
 -------------------
-The GEM detector configuration is set from the script ```config/gem_hcna.cfg```. To do an analysis that includes the GEM, add the following to the typical replay script, correcting paths and spectrometer apparatuses as needed:
+- The GEM detector configuration is set from the script ```config/gem_hcna.cfg```. To do an analysis that includes the GEM, add the following to the typical replay script, correcting paths and spectrometer apparatuses as needed:
 ```
   THcGEM* gem = new THcGEM("gem","GEM data");
   gem->SetConfigFile("/path/to/gem_hcana.cfg");
@@ -41,16 +41,16 @@ The GEM detector configuration is set from the script ```config/gem_hcna.cfg```.
 ```
 Also you need to add ```block P.gem.*``` to the ```pstackana_production.def``` file (this file is located under ```hallc_replay``` at ```DEF-files/SHMS/PRODUCTION/```) so that the GEM data shows up in the ```TTree``` with other SHMS data.
 
-You can try running the example scripts inside the directory ```examples/```.
+- You can try running the example scripts inside the directory ```examples/```.
 
 
 Running as an Executable
 -------------------------
-To compile the library as an independent executable that provides access to GEM data only (useful for testing GEM), use the other ```Makefile``` named ```MakefileExe``. Change the include and library path as required and compile as:
+- To compile the library as an independent executable that provides access to GEM data only (useful for testing GEM), use the other makefile named ```MakefileExe```. The executable requires the ```EVIO``` library installed and sourced. Instruction for EVIO library can be found [here][4]. In the file ```MakefileExe```, change the include and library path as required and compile as:
 ```
 make -f MakefileExe
 ```
-The executable requires the ```EVIO``` library installed and sourced. Instruction for EVIO library can be found [here][4]. 
+
 
 
 [1]:https://github.com/JeffersonLab/hcana

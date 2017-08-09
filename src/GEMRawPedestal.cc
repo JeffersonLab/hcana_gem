@@ -202,7 +202,8 @@ void GEMRawPedestal::ApvEventDecode()
 	    for(int chNo = 0; chNo < NCH; ++chNo)
 	    {
 		float rawdata = vSingleApvData[idata];
-		if( (apv_status != "normal") && (mapping->GetPRadStripMapping(fAPVID, chNo)<16) )
+		//if( (apv_status != "normal") && (mapping->GetPRadStripMapping(fAPVID, chNo)<16) )
+		if( (apv_status != "normal") && (mapping->GetHallCStripMapping(fAPVID, chNo)<16) ) // latif: To be verified
 		{
 		    //cout<<"apv event decoder: not normal apvs:  "<<apv_status<<endl;
 		    commonModeOffset_split.push_back(rawdata);
@@ -339,7 +340,8 @@ void GEMRawPedestal::ComputeApvPedestal(int apvindex)
 	    float rawdata = timebin_it->second;
 	    float commonModeOffset = vCommonModeOffset[timebin];
 
-	    if( (apv_status != "normal") && (mapping->GetPRadStripMapping(fAPVID,stripNo)<16) )
+	    //if( (apv_status != "normal") && (mapping->GetPRadStripMapping(fAPVID,stripNo)<16) )
+	    if( (apv_status != "normal") && (mapping->GetHallCStripMapping(fAPVID,stripNo)<16) ) // latif : To be verified
 	    {
 		//cout<<" compute_pedestal function:  not normal apvs:  "<<apv_status<<endl;
 		commonModeOffset = vCommonModeOffset_split[timebin];

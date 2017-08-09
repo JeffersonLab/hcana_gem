@@ -63,7 +63,7 @@ public:
     void SetCartesianStripsReadoutMap(TString readoutBoard, TString detectorType, TString detector, Int_t detID, TString planeX,  Float_t sizeX, Int_t connectorsX, Int_t orientX, TString planeY,  Float_t sizeY, Int_t connectorsY, Int_t orientY) ;
 
     Int_t GetPRadStripMapping(Int_t apvID, Int_t chNo) ;
-
+    Int_t GetHallCStripMapping(Int_t apvID, Int_t chNo); // Hall C GEM mapping: latif
     void ComputeActiveADCchannelsMap() ;
     vector <Int_t> GetActiveADCchannels(Int_t fecID) {return fActiveADCchannelsMap[fecID];}
 
