@@ -87,18 +87,27 @@ void GEMEvioParser::ParseEvent(unsigned int * buf)
 
     switch(header->tag)
     {
-	case CODA_Event:
-	    {
-		handler -> Decode(&buf[HEADER_SIZE], buf[0]-HEADER_SIZE);
-		break;
-	    }
+        case CODA_Event1:
+        case CODA_Event2:
+        case CODA_Event3:
+        case CODA_Event4:
+        case CODA_Event5:
+        case CODA_Event6:
+        case CODA_Event7:
+        case CODA_Event8:
+        case CODA_Event9:
+        case CODA_Event10:
+	{
+	    handler -> Decode(&buf[HEADER_SIZE], buf[0]-HEADER_SIZE);
+	    break;
+	}
 	case CODA_Sync:
 	    break;
 	case EPICS_Info:
-	    {
-		handler -> DecodeEpics(&buf[HEADER_SIZE], buf[0]-HEADER_SIZE);
-		break;
-	    }
+	{
+	    handler -> DecodeEpics(&buf[HEADER_SIZE], buf[0]-HEADER_SIZE);
+	    break;
+	}
 	case CODA_Prestart:
 	    break;
 	case CODA_Go:

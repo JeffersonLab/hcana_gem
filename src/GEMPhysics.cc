@@ -17,12 +17,12 @@ GEMPhysics::GEMPhysics()
     cout<<"GEMPhysics Constructor..."
         <<endl;
     mapping = GEMMapping::GetInstance();
+    fGEMDataProcessor = new THcGEMDataProcessor();
+    fHcGEMPhysics = new THcGEMPhysics();
 }
 
 GEMPhysics::~GEMPhysics()
 {
-    fGEMDataProcessor = new THcGEMDataProcessor();
-    fHcGEMPhysics = new THcGEMPhysics();
 }
 
 void GEMPhysics::SetGEMPedestal(GEMPedestal *ped)

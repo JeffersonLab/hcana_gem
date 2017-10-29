@@ -1,11 +1,21 @@
 #ifndef PRAD_DATA_STRUCT_H
 #define PRAD_DATA_STRUCT_H
 
+//------- All possible physics event types have been added as DAQ seems to switch back and forth at this moment ----------
 enum PRadEventType
 {
     CODA_Unknown = 0x0,
     EPICS_Info = 0x1f,
-    CODA_Event = 0x1,
+    CODA_Event1 = 0x01,
+    CODA_Event2 = 0x02,
+    CODA_Event3 = 0x03,
+    CODA_Event4 = 0x04,
+    CODA_Event5 = 0x05,
+    CODA_Event6 = 0x06,
+    CODA_Event7 = 0x07,
+    CODA_Event8 = 0x08,
+    CODA_Event9 = 0x09,
+    CODA_Event10 = 0x10,
     CODA_Prestart = 0x11,
     CODA_Go = 0x12,
     CODA_Sync = 0xc1,
