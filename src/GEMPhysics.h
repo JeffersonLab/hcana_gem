@@ -13,6 +13,8 @@
 #include <fstream>
 #include "datastruct.h"
 #include "GEMDataStruct.h"
+#include "THcGEMDataProcessor.h"
+#include "THcGEMPhysics.h"
 
 class GEMPedestal;
 class GEMMapping;
@@ -27,7 +29,7 @@ class GEMPhysics
 public:
     GEMPhysics();
     ~GEMPhysics();
-    void AccumulateEvent(int evtID, std::unordered_map<int, std::vector<int> > & event);
+    void AccumulateEvent(int evtID, std::unordered_map<int, std::vector<int> > event);
     void CharactorizeGEM();
     void CharactorizePhysics();
     void CharactorizePlanePhysics();
@@ -48,6 +50,8 @@ private:
     GEMCoord *gem_coord;
     GEMConfigure *config;
     GEMSignalFitting *sig_fitting;
+    THcGEMDataProcessor *fGEMDataProcessor;
+    THcGEMPhysics *fHcGEMPhysics;
 };
 
 #endif

@@ -29,6 +29,7 @@ int main(int argc, char* argv[])
   // analyzer
   GEMAnalyzer *gem_analyzer = new GEMAnalyzer();
   gem_analyzer->ProcessFiles();
+  // gem_analyzer->ProcessResults();
   delete gem_analyzer;
 
   //theApp.Run(true);

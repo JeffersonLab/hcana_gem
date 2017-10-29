@@ -14,6 +14,8 @@
 #include "datastruct.h"
 #include <unordered_map>
 #include <TString.h>
+#include "THcGEMPhysics.h"
+
 #define NDETECTOR 1
 
 class TTree;
@@ -45,6 +47,7 @@ public:
 	    std::unordered_multimap<std::string, double> &tdc_map);
 
     void PushDetector(int, std::vector<GEMClusterStruct>);
+    void PushCoordinate(GEMCoordinate gem_coord);
     void PushTDCValue(std::unordered_multimap<std::string, double> &tdc_map);
 
     void FillGEMTree();

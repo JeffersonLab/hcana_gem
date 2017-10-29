@@ -19,8 +19,9 @@ SRCFILES = THcGEM.cc \
 	   EpicsPhysics.cc \
 	   TDCEventAnalyzer.cc \
 	   EventUpdater.cc \
-	   GEMSignalFitting.cc
-
+	   GEMSignalFitting.cc\
+           THcGEMDataProcessor.cc\
+           THcGEMPhysics.cc
 #	   main.cc GEMEvioParser.cc
 
 SRC = $(addprefix src/,$(SRCFILES))

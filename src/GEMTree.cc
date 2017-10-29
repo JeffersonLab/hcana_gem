@@ -134,6 +134,23 @@ void GEMTree::PushDetector(int nthDet, std::vector<GEMClusterStruct> Gem)
     }
 }
 
+void GEMTree::PushCoordinate(GEMCoordinate gem_coord)
+{
+    int index = 0;
+    int n = 0;
+
+    x[n][index]=gem_coord.X;
+    y[n][index] = gem_coord.Y;
+    x_charge[n][index] = gem_coord.charge_x;
+    y_charge[n][index] = gem_coord.charge_y;
+    energy[n][index] = 0.0;
+    z[n][index] = 0.0;
+    x_size[n][index] = 1.0;
+    y_size[n][index] = 1.0;
+}
+
+
+
 void GEMTree::FillGEMTree()
 {
     if( ! empty_gem_event){

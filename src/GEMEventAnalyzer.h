@@ -30,6 +30,7 @@ public:
     GEMRawDecoder * GetGEMRawDecoder();
     std::unordered_map<int, std::vector<int> > & GetEvent();
     bool IsEventUpdated();
+    int GetGEMEventNumber();
 
 private:
     GEMRawDecoder* gem_decoder;

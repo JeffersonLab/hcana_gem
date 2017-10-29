@@ -22,6 +22,8 @@ Source  := main.cc \
 	   TDCEventAnalyzer.cc \
 	   EventUpdater.cc \
 	   GEMSignalFitting.cc \
+	   THcGEMDataProcessor.cc \
+	   THcGEMPhysics.cc \
 
 OBJDIR 	:= ./obj
 

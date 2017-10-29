@@ -129,3 +129,8 @@ bool GEMEventAnalyzer::IsEventUpdated()
     else 
 	return false;
 }
+
+int GEMEventAnalyzer::GetGEMEventNumber()
+{
+    return lastEvent;
+}

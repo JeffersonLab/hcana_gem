@@ -21,8 +21,6 @@ GEMPhysics::GEMPhysics()
 
 GEMPhysics::~GEMPhysics()
 {
-    fGEMDataProcessor = new THcGEMDataProcessor();
-    fHcGEMPhysics = new THcGEMPhysics();
 }
 
 void GEMPhysics::SetGEMPedestal(GEMPedestal *ped)
@@ -52,47 +50,29 @@ void GEMPhysics::SetGEMTree(GEMTree *tree)
     rst_tree = tree;
 }
 
-void GEMPhysics::AccumulateEvent(int evtID, std::unordered_map<int, std::vector<int> > event)
+void GEMPhysics::AccumulateEvent(int evtID, unordered_map<int, vector<int> > & event)
 {
     //cout<<"event number from gem: "<<evtID<<endl;
     SetEvtID( evtID );
-    // -------------- Hall C GEM implementation -----------------
-    bool hasGEMData = false;
-    hasGEMData = fGEMDataProcessor->ProcessEvent(event);
-    if(!hasGEMData)
-    {
-	fHcGEMPhysics->ResetCoordinate();
-	CharactorizeGEM();
-	return;
-    }
-	
-    fHcGEMPhysics->RegisterBuffer(fGEMDataProcessor->GetProcessedData());
-
-    fHcGEMPhysics->FillRawCoordinate();	
-    if(fHcGEMPhysics->fRawCoord.size() != 2) // For now lets consider only pair of clusters
-	fHcGEMPhysics->ResetCoordinate();
-    else
-    {
-	fHcGEMPhysics->ComputeCoordinate();
-	if(fHcGEMPhysics->fGEM_Coord.X == -1 || fHcGEMPhysics->fGEM_Coord.Y == -1) // Discard double hits on same axis
-	    fHcGEMPhysics->ResetCoordinate();
-    }
-
+    // Modify from here : Latif
+    hit_decoder -> ProcessEvent(event);
     CharactorizeGEM();
+    CharactorizePhysics();
+
+    sig_fitting -> Fit();
 }
 
 void GEMPhysics::CharactorizeGEM()
 {
-    // int n = mapping->GetNbOfDetectors();
+    int n = mapping->GetNbOfDetectors();
 
-    // vector<GEMClusterStruct> gem;
-    // for(int i=0;i<n;i++)
-    // {
-    // 	gem.clear();
-    // 	gem_coord->GetClusterGEM(i, gem);
-    // 	rst_tree -> PushDetector(i, gem);
-    // }
-    rst_tree -> PushCoordinate(fHcGEMPhysics->fGEM_Coord);
+    vector<GEMClusterStruct> gem;
+    for(int i=0;i<n;i++)
+    {
+	gem.clear();
+	gem_coord->GetClusterGEM(i, gem);
+	rst_tree -> PushDetector(i, gem);
+    }
     rst_tree -> FillGEMTree();
 }
 

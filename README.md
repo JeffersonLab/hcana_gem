@@ -6,7 +6,7 @@ This is the GEM detector library which is used to analyze GEM data that is part 
 Dependency
 ----------
 
-- To use with ```hcana```, first install and compile an up to data copy of hcana and source the ```setup.sh``` or ```setup.csh``` script in ```hcana```. Setup instruction for ```hcana``` can be found [here][1] and [here][2]. You will also need a copy of ```hallc_replay``` which can be found [here][3].
+- To use with ```hcana```, first install and compile an up to date copy of hcana and source the ```setup.sh``` or ```setup.csh``` script in ```hcana```. Setup instruction for ```hcana``` can be found [here][1] and [here][2]. You will also need a copy of ```hallc_replay``` which can be found [here][3].
 
 Compilation and Setup
 ---------------------
