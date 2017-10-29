@@ -92,6 +92,7 @@ void GEMPhysics::CharactorizeGEM()
     // 	gem_coord->GetClusterGEM(i, gem);
     // 	rst_tree -> PushDetector(i, gem);
     // }
+    rst_tree->SetEventID(evt_id);
     rst_tree -> PushCoordinate(fHcGEMPhysics->fGEM_Coord);
     rst_tree -> FillGEMTree();
 }

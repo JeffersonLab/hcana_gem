@@ -87,7 +87,7 @@ void GEMEvioParser::ParseEvent(unsigned int * buf)
 
     switch(header->tag)
     {
-        case CODA_Event1:
+        case CODA_Event1: // For the time being check all possible event tags
         case CODA_Event2:
         case CODA_Event3:
         case CODA_Event4:

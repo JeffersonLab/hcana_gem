@@ -24,6 +24,7 @@ Source  := main.cc \
 	   GEMSignalFitting.cc \
 	   THcGEMDataProcessor.cc \
 	   THcGEMPhysics.cc \
+	   Dict.cc
 
 OBJDIR 	:= ./obj
 
@@ -47,6 +48,10 @@ $(Target) : $(OBJS)
 $(OBJDIR)/%.o: ./src/%.cc
 	@echo Compiling $< ...
 	$(cc) -c $< -o $@ $(flags)
+
+#generate dictionary
+src/Dict.cc:
+	rootcint -f $@ -c -I./src THcGEMDataProcessor.h THcGEMPhysics.h GEM_LinkDef.h
 
 clean:
 	@rm -f $(Target)

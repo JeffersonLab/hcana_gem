@@ -50,7 +50,8 @@ void GEMTree::SetGEMConfigure(GEMConfigure * c)
 // ------------------------------- gem tree -------------------------------------
 void GEMTree::SetEventID(unsigned int &id)
 {
-    event_id = (int) id;
+    //event_id = (int) id;
+    evt_id = (int) id;  // latif
 }
 
 void GEMTree::InitGEMTree(int ndet)
@@ -139,6 +140,9 @@ void GEMTree::PushCoordinate(GEMCoordinate gem_coord)
     int index = 0;
     int n = 0;
 
+    empty_gem_event = false; // We want to fill coord for every event, even if no GEM hit
+    
+    nhits[n] = 1;
     x[n][index]=gem_coord.X;
     y[n][index] = gem_coord.Y;
     x_charge[n][index] = gem_coord.charge_x;
