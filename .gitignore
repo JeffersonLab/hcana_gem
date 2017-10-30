@@ -16,3 +16,4 @@ lib/GEMDict.cc
 *.os
 *.pcm
 \#*\#
+*.root

@@ -50,8 +50,8 @@ private:
     GEMCoord *gem_coord;
     GEMConfigure *config;
     GEMSignalFitting *sig_fitting;
-    THcGEMDataProcessor *fGEMDataProcessor;
-    THcGEMPhysics *fHcGEMPhysics;
+    THcGEMDataProcessor *fGEMDataProcessor; // Hall C 
+    THcGEMPhysics *fHcGEMPhysics; // Hall C
 };
 
 #endif

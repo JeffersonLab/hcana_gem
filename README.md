@@ -22,7 +22,7 @@ if [ -f /path/to/thishcana_gem.sh ]; then
 fi 
 ```
 
-- To load the shared library ```libGEM.so``` automatically every time you start ```hcana``` for ```hallc_replay```, just copy the file ```rootlogon.C``` to the top level directory of ```hallc_replay``` (or to our working directory).  Now start ```hcana``` form the top level directory of ```hallc_replay```. You will see the following typical ```hcana``` start-up screen with an additional line on the top confirming if ```libGEM.so``` has been loaded successfully:
+- To load the shared library ```libGEM.so``` automatically every time you start ```hcana``` for ```hallc_replay```, just copy the file ```rootlogon.C``` to the top level directory of ```hallc_replay``` (or to your working directory).  Now start ```hcana``` form the top level directory of ```hallc_replay```. You will see the following typical ```hcana``` start-up screen with an additional line on the top confirming if ```libGEM.so``` has been loaded successfully:
 
 ![](info/ScreenShot.png)
 

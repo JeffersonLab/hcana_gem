@@ -41,6 +41,9 @@ void THcGEMPhysics::FillRawCoordinate()
     Int_t presentVal;
     Bool_t clusterFound = false;
 
+    Int_t tbin_;
+    Int_t strip_;
+    
     fRawCoord.clear();
     
     for(Int_t adc = 0; adc < NADC; ++adc)
@@ -50,46 +53,49 @@ void THcGEMPhysics::FillRawCoordinate()
 	{
 	    for(Int_t strip = 0; strip < N_STRIPS; ++strip)
 	    {
-		if(fProcessedData[adc][tbin][strip]<cutOffSecondary)
+		tbin_ = tbin;
+		strip_ = strip;
+
+		if(fProcessedData[adc][tbin_][strip_]<cutOffSecondary)
 		    continue;
 
-		previousVal = fProcessedData[adc][tbin][strip];
-		presentVal = fProcessedData[adc][tbin][strip];
+		previousVal = fProcessedData[adc][tbin_][strip_];
+		presentVal = fProcessedData[adc][tbin_][strip_];
 		
 		while(presentVal>=previousVal)
 		{
-		    if(strip >= (N_STRIPS - 1))
+		    if(strip_ >= (N_STRIPS - 1))
 			break;
-		    ++strip;
+		    ++strip_;
 		    previousVal = presentVal;
-		    presentVal = fProcessedData[adc][tbin][strip];
+		    presentVal = fProcessedData[adc][tbin_][strip_];
 		}
-		if(strip>0)
-		    --strip;
-		presentVal = fProcessedData[adc][tbin][strip];
+		if(strip_>0)
+		    --strip_;
+		presentVal = fProcessedData[adc][tbin_][strip_];
 		previousVal = presentVal;
 		
 		while(presentVal>=previousVal)
 		{
-		    if(tbin >= (NTIME_BINS - 4))
+		    if(tbin_ >= (NTIME_BINS - 4))
 			break;
-		    ++tbin;
+		    ++tbin_;
 		    previousVal = presentVal;
-		    presentVal = fProcessedData[adc][tbin][strip];
+		    presentVal = fProcessedData[adc][tbin_][strip_];
 		}
-		if(tbin>0)
-		    --tbin;
-		presentVal = fProcessedData[adc][tbin][strip];
+		if(tbin_>0)
+		    --tbin_;
+		presentVal = fProcessedData[adc][tbin_][strip_];
 
 		if(presentVal > cutOffSecondary && presentVal < cutOffPrimary)
 		{
-		    status = FitCluster(adc,tbin,strip);
+		    status = FitCluster(adc,tbin_,strip_);
 		    if(!status)
 			continue;
 		}
 
 		fCoord.adcNo = adc;
-		fCoord.stripNo = strip;
+		fCoord.stripNo = strip_;
 		fCoord.ADCValue = presentVal;
 		clusterFound = true;
 		fRawCoord.push_back(fCoord);
@@ -155,7 +161,9 @@ void THcGEMPhysics:: ComputeCoordinate()
     for(RawCoordinate rc : fRawCoord)
     {
 	//----------- Last level (APV orientation) of mapping correction happes here -------
-	//My mapping
+	//Initial mapping: X :1, 2, 0
+	//Corrected based on dc correlation: X: 0, 2, 1 (less in +x)or 1, 0, 2(more points in +x)
+	//Final : X: 1, 0, 2
 	switch (rc.adcNo)
 	{
 	case 0:
@@ -163,11 +171,11 @@ void THcGEMPhysics:: ComputeCoordinate()
 	    fGEM_Coord.charge_x = rc.ADCValue;
 	    break;
 	case 1:
-	    fGEM_Coord.X = 2.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
+	    fGEM_Coord.X = 0.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
 	    fGEM_Coord.charge_x = rc.ADCValue;
 	    break;
 	case 2:
-	    fGEM_Coord.X = 0.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
+	    fGEM_Coord.X = 2.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
 	    fGEM_Coord.charge_x = rc.ADCValue;
 	    break;
 	case 3:

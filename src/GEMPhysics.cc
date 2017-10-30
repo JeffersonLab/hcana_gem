@@ -52,11 +52,26 @@ void GEMPhysics::SetGEMTree(GEMTree *tree)
     rst_tree = tree;
 }
 
+//------------- Hall B implementation ------------------
+// void GEMPhysics::AccumulateEvent(int evtID, unordered_map<int, vector<int> > & event)
+// {
+//     //cout<<"event number from gem: "<<evtID<<endl;
+//     SetEvtID( evtID );
+//     // Modify from here : Latif
+//     hit_decoder -> ProcessEvent(event);
+//     CharactorizeGEM();
+//     CharactorizePhysics();
+
+//     sig_fitting -> Fit();
+// }
+
+
+// -------------- Hall C GEM implementation -----------------
 void GEMPhysics::AccumulateEvent(int evtID, std::unordered_map<int, std::vector<int> > event)
 {
     //cout<<"event number from gem: "<<evtID<<endl;
     SetEvtID( evtID );
-    // -------------- Hall C GEM implementation -----------------
+
     bool hasGEMData = false;
     hasGEMData = fGEMDataProcessor->ProcessEvent(event);
     if(!hasGEMData)
@@ -81,17 +96,24 @@ void GEMPhysics::AccumulateEvent(int evtID, std::unordered_map<int, std::vector<
     CharactorizeGEM();
 }
 
+// ---------------- Hall B Implementation -----------------
+// void GEMPhysics::CharactorizeGEM()
+// {
+//     int n = mapping->GetNbOfDetectors();
+
+//     vector<GEMClusterStruct> gem;
+//     for(int i=0;i<n;i++)
+//     {
+// 	gem.clear();
+// 	gem_coord->GetClusterGEM(i, gem);
+// 	rst_tree -> PushDetector(i, gem);
+//     }
+//     rst_tree -> FillGEMTree();
+// }
+
+// ------------------ Hall C Implementation ------------------
 void GEMPhysics::CharactorizeGEM()
 {
-    // int n = mapping->GetNbOfDetectors();
-
-    // vector<GEMClusterStruct> gem;
-    // for(int i=0;i<n;i++)
-    // {
-    // 	gem.clear();
-    // 	gem_coord->GetClusterGEM(i, gem);
-    // 	rst_tree -> PushDetector(i, gem);
-    // }
     rst_tree->SetEventID(evt_id);
     rst_tree -> PushCoordinate(fHcGEMPhysics->fGEM_Coord);
     rst_tree -> FillGEMTree();

@@ -1,6 +1,4 @@
-#define GEM_CONFIG_PATH "/home/siplu/GIT/JLAB/HcAna/hcana_gem/config/gem_hcana.cfg"  // <------------ Change path to appropriate location
-
-//R__LOAD_LIBRARY(libGEM.so);      //<----------- Uncomment this if you are not loading libGEM.so from rootlogon file
+R__LOAD_LIBRARY(libGEM.so);      //<----------- Comment this if you are loading libGEM.so from rootlogon file
 void replay_gem_shms(Int_t RunNumber = 0, Int_t MaxEvent = 0)
 {   
     // Get RunNumber and MaxEvent if not provided.
@@ -81,7 +79,7 @@ void replay_gem_shms(Int_t RunNumber = 0, Int_t MaxEvent = 0)
     // Add GEM to SHMS apparatus
     THcGEM* gem = new THcGEM("gem","GEM data");
     //  gem->SetEvtType(1);
-    gem->SetConfigFile(GEM_CONFIG_PATH);
+    gem->SetConfigFile("SCRIPTS/SHMS/GEM/gem_hcana.cfg");
     SHMS->AddDetector(gem);
 
 
@@ -156,7 +154,7 @@ void replay_gem_shms(Int_t RunNumber = 0, Int_t MaxEvent = 0)
     // Define DEF-file
     analyzer->SetOdefFile("DEF-files/SHMS/PRODUCTION/pstackana_gem.def");
     // Define cuts file
-    analyzer->SetCutFile("DEF-files/SHMS/PRODUCTION/pstackana_production_cuts.def");  // optional
+    analyzer->SetCutFile("DEF-files/SHMS/PRODUCTION/pstackana_production_cuts_gem.def");  // optional
     // File to record accounting information for cuts
     analyzer->SetSummaryFile(Form("REPORT_OUTPUT/SHMS/GEM/summary_gem_%d_%d.report", RunNumber, MaxEvent));  // optional
     // Start the actual analysis.

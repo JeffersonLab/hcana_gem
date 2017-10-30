@@ -47,7 +47,7 @@ Bool_t THcGEMDataProcessor::ProcessDecodedData(unordered_map<int, vector<int> > 
 
     if(event_size < 1)
     {
-	cout<<"Empty Event. Skipped"<<endl;
+	//cout<<"Empty Event. Skipped"<<endl;
 	return false;
     }
 	
