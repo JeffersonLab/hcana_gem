@@ -61,7 +61,7 @@ Bool_t THcGEMDataProcessor::ProcessDecodedData(unordered_map<int, vector<int> > 
 	cout << "Unable to locate first time bin" <<endl;
 	return false;
     }
-    Int_t nTimeBins = 21*140;
+    Int_t nTimeBins = NTIME_BINS*BLOCK_LENGTH; //21*140;
     Int_t stripNo = 0;    
     for(auto &i: raw_event)
     {

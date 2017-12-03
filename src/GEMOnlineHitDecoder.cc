@@ -332,7 +332,7 @@ void GEMOnlineHitDecoder::APVCommonModeCorrectionSplit()
 	for(int chNo=0;chNo<NCH;chNo++)
 	{
 	    //if(mapping->GetPRadStripMapping(fAPVID, chNo)<16)
-	    if(mapping->GetHallCStripMapping(fAPVID, chNo)<16) // To be verified: latif
+	    if(mapping->GetHallCStripMapping(fAPVID, chNo)<16) 
 	    {
 		if( (fRawData16bits[first[i] + chNo] + thresh1 * fPedestalNoises[chNo]) > 0 )
 		{
@@ -356,7 +356,7 @@ void GEMOnlineHitDecoder::APVCommonModeCorrectionSplit()
 	for(int chNo = 0; chNo<NCH;chNo++)
 	{
 	    //if(mapping->GetPRadStripMapping(fAPVID, chNo)<16)
-	    if(mapping->GetHallCStripMapping(fAPVID, chNo)<16) // latif : To be verified
+	    if(mapping->GetHallCStripMapping(fAPVID, chNo)<16) 
 	    {
 		fRawData16bits[ first[i] + chNo] -= commonMode1;
 	    }

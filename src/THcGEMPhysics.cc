@@ -152,44 +152,52 @@ Bool_t THcGEMPhysics:: FitCluster(Int_t adc, Int_t tbin, Int_t strip)
 	return true;
 }
 
-
 void THcGEMPhysics:: ComputeCoordinate()
 {
     ResetCoordinate();
-    const Double_t stripNoToCm = 15.36/(3.0*128.0);
+    const Double_t length = GEM_LENGTH;
+    const Double_t stripNoToCm = length/(3.0*N_STRIPS);
+
+    Int_t X1 = 0;
+    Int_t X2 = 1;
+    Int_t X3 = 2;
+    Int_t Y1 = 0;
+    Int_t Y2 = 1;
+    Int_t Y3 = 2;
     
     for(RawCoordinate rc : fRawCoord)
-    {
-	//----------- Last level (APV orientation) of mapping correction happes here -------
-	//Initial mapping: X :1, 2, 0
-	//Corrected based on dc correlation: X: 0, 2, 1 (less in +x)or 1, 0, 2(more points in +x)
-	//Final : X: 1, 0, 2
-	switch (rc.adcNo)
-	{
-	case 0:
-	    fGEM_Coord.X = 1.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
-	    fGEM_Coord.charge_x = rc.ADCValue;
-	    break;
-	case 1:
-	    fGEM_Coord.X = 0.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
-	    fGEM_Coord.charge_x = rc.ADCValue;
-	    break;
-	case 2:
-	    fGEM_Coord.X = 2.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
-	    fGEM_Coord.charge_x = rc.ADCValue;
-	    break;
-	case 3:
-	    fGEM_Coord.Y = 0.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
-	    fGEM_Coord.charge_y = rc.ADCValue;
-	    break;
-	case 4:
-	    fGEM_Coord.Y = 2.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
-	    fGEM_Coord.charge_y = rc.ADCValue;
-	    break;
-	case 5:
-	    fGEM_Coord.Y = 1.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
-	    fGEM_Coord.charge_y = rc.ADCValue;
-	    break;
+    {     
+	//----------- Last level (APV orientation) of mapping correction happes here ------- 
+        // The GEM coordinate is also transformed to align the axes with Hall C transport coordinate system
+	 switch (rc.adcNo)
+	 {
+	   case X1_ADC_NO:
+	     fGEM_Coord.X = X1*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - rc.stripNo - 1)*stripNoToCm;
+	     fGEM_Coord.charge_x = rc.ADCValue;
+	     break;
+	   case X2_ADC_NO:
+	     fGEM_Coord.X = X2*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - rc.stripNo - 1)*stripNoToCm;
+	     fGEM_Coord.charge_x = rc.ADCValue;
+	     break;
+	   case X3_ADC_NO:
+	     fGEM_Coord.X = X3*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - rc.stripNo - 1)*stripNoToCm;
+	     fGEM_Coord.charge_x = rc.ADCValue;
+	     break;
+	   case Y1_ADC_NO:
+	     fGEM_Coord.Y = Y1*(Double_t)N_STRIPS*stripNoToCm + (rc.stripNo + 1)*stripNoToCm;
+	     fGEM_Coord.Y = length - fGEM_Coord.Y;
+	     fGEM_Coord.charge_y = rc.ADCValue;
+	     break;
+	   case Y2_ADC_NO:
+	     fGEM_Coord.Y = Y2*(Double_t)N_STRIPS*stripNoToCm + (rc.stripNo + 1)*stripNoToCm;
+	     fGEM_Coord.Y = length - fGEM_Coord.Y;
+	     fGEM_Coord.charge_y = rc.ADCValue;
+	     break;
+	   case Y3_ADC_NO:
+	     fGEM_Coord.Y = Y3*(Double_t)N_STRIPS*stripNoToCm + (rc.stripNo + 1)*stripNoToCm;
+	     fGEM_Coord.Y = length - fGEM_Coord.Y;
+	     fGEM_Coord.charge_y = rc.ADCValue;
+	     break;
 	}
     }    
 }
