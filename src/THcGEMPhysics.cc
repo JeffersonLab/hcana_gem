@@ -161,21 +161,21 @@ void THcGEMPhysics:: ComputeCoordinate()
     for(RawCoordinate rc : fRawCoord)
     {
 	//----------- Last level (APV orientation) of mapping correction happes here -------
-	//Initial mapping: X :1, 2, 0
-	//Corrected based on dc correlation: X: 0, 2, 1 (less in +x)or 1, 0, 2(more points in +x)
-	//Final : X: 1, 0, 2
+	//Initial mapping: X :(ADC,APV)---> X0(0,1), X1(1,2), X2(2,0) 
+	//Corrected based on dc correlation: X: (ADC,APV)---> X0(0,0), X1(1,2), X2(2,1) ---> less cosmic in +x
+	//X: (ADC,APV)---> X0(0,1), X1(1,0), X2(2,2)  -----> more cosmic points in +x)
 	switch (rc.adcNo)
 	{
 	case 0:
-	    fGEM_Coord.X = 1.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
-	    fGEM_Coord.charge_x = rc.ADCValue;
-	    break;
-	case 1:
 	    fGEM_Coord.X = 0.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
 	    fGEM_Coord.charge_x = rc.ADCValue;
 	    break;
-	case 2:
+	case 1:
 	    fGEM_Coord.X = 2.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
+	    fGEM_Coord.charge_x = rc.ADCValue;
+	    break;
+	case 2:
+	    fGEM_Coord.X = 1.0*(Double_t)N_STRIPS*stripNoToCm + (Double_t)rc.stripNo*stripNoToCm;
 	    fGEM_Coord.charge_x = rc.ADCValue;
 	    break;
 	case 3:

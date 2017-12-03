@@ -13,3 +13,4 @@
 #define NTIME_BINS 21          // NUmber of time bins
 #define N_STRIPS 128           // Number of strip of the GEM readout board
 #define HEADER_CUTOFF 1500     // Header cutoff level
+#define BLOCK_LENGTH 140       // 12 headers + 128 channels 
