@@ -9,6 +9,9 @@
 #define PATH_FOR_CONFIG "/home/latif/GIT/HCANA/hcana_gem/config/gem.cfg"
 #define PATH_FOR_MAPPING "/home/latif/GIT/HCANA/hcana_gem/config/mapping.cfg"
 
+
+#define USE_PEDESTAL_DATA 1   // 1: Used pedestal data file under pedestal, 0: use last time bin for pedestal
+
 #define NADC 6                 // Number of ADC
 #define NTIME_BINS 21          // NUmber of time bins
 #define N_STRIPS 128           // Number of strip of the GEM readout board

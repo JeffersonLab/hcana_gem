@@ -8,6 +8,8 @@
 // URL: jlab.org/~latif
 
 #include <iostream>
+#include <fstream>
+#include "TApplication.h"
 #include "THcGEMDataProcessor.h"
 #include "HcGEMConstants.h"
 
@@ -28,6 +30,10 @@ THcGEMDataProcessor::~THcGEMDataProcessor()
 	delete[]  fMappedRawData[i];
     }
     delete[] fMappedRawData;
+
+    for(Int_t i = 0; i < NADC; ++i)
+	delete[] fPedestal[i];
+    delete[] fPedestal;	    
 }
 //-------------------Create buffer to keep processed data --------------------
 void THcGEMDataProcessor::Init()
@@ -39,6 +45,20 @@ void THcGEMDataProcessor::Init()
 	for(Int_t j = 0; j < NTIME_BINS; ++j)	
 	    fMappedRawData[i][j] = new Int_t[N_STRIPS];
     }
+
+        fPedestal = new Double_t*[NADC];
+    for(Int_t i = 0; i < NADC; ++i)
+	fPedestal[i] = new Double_t[N_STRIPS];
+
+    std::ifstream PedDataFile("pedestal/GEMPedData.dat", std::ifstream::in | std::ifstream::binary);
+
+    if(!PedDataFile)
+    {
+	cout<<" Pedestal data file NOT found"<<endl;
+	gApplication->Terminate();
+    }
+    for(Int_t i = 0; i < NADC; ++i)
+	PedDataFile.read((char*)fPedestal[i], N_STRIPS*sizeof(Double_t));
 }
 //--------------Remove headers and apply ADC Channel mapping + Strip mapping --------------------
 Bool_t THcGEMDataProcessor::ProcessDecodedData(unordered_map<int, vector<int> > raw_event)
@@ -118,7 +138,10 @@ void THcGEMDataProcessor::SubtractPedestal()
 	{
 	    for(Int_t strip = 0; strip < N_STRIPS; ++strip)
 	    {
-		fMappedRawData[adc][tbin][strip] = fMappedRawData[adc][NTIME_BINS -1][strip] - fMappedRawData[adc][tbin][strip];
+		if(USE_PEDESTAL_DATA)
+		    fMappedRawData[adc][tbin][strip] = fPedestal[adc][strip] - fMappedRawData[adc][tbin][strip];
+		else
+		    fMappedRawData[adc][tbin][strip] = fMappedRawData[adc][NTIME_BINS -1][strip] - fMappedRawData[adc][tbin][strip];
 	    }
 	}
     }
@@ -136,6 +159,17 @@ Bool_t THcGEMDataProcessor::ProcessEvent(unordered_map<int, vector<int> > raw_ev
 Int_t*** THcGEMDataProcessor::GetProcessedData()
 {
     return fMappedRawData;    
+}
+//------------------- Print Loaded Pedestal for Confirmation -------------------------
+void THcGEMDataProcessor::PrintPedestal()
+{
+    cout<<"======================== Printing Pedestal Data ========================"<<endl;
+    for(Int_t i = 0; i < NADC; ++i)
+    {
+	for(Int_t j = 0; j < N_STRIPS; ++j)
+	    cout <<fPedestal[i][j]<<"\t";
+	cout<<endl;
+    }
 }
 
 
