@@ -14,7 +14,7 @@
 #include "datastruct.h"
 #include "GEMDataStruct.h"
 #include "THcGEMDataProcessor.h"
-#include "THcGEMPhysics.h"
+#include "THcGEMCluster.h"
 
 class GEMPedestal;
 class GEMMapping;
@@ -51,7 +51,7 @@ private:
     GEMConfigure *config;
     GEMSignalFitting *sig_fitting;
     THcGEMDataProcessor *fGEMDataProcessor; // Hall C 
-    THcGEMPhysics *fHcGEMPhysics; // Hall C
+    THcGEMCluster *fHcGEMCluster; // Hall C
 };
 
 #endif

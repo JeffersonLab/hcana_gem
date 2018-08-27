@@ -14,7 +14,7 @@
 #include "datastruct.h"
 #include <unordered_map>
 #include <TString.h>
-#include "THcGEMPhysics.h"
+#include "THcGEMCluster.h"
 
 #define NDETECTOR 1
 

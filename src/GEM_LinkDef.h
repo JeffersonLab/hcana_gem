@@ -4,5 +4,5 @@
 #pragma link off all functions;
 #pragma link C++ class THcGEM+;
 #pragma link C++ class THcGEMDataProcessor;
-#pragma link C++ class THcGEMPhysics;
+#pragma link C++ class THcGEMCluster;
 #endif

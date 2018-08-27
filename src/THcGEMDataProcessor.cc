@@ -71,7 +71,7 @@ Bool_t THcGEMDataProcessor::ProcessDecodedData(unordered_map<int, vector<int> > 
 	return false;
     }
 	
-    Int_t index=0;
+    Int_t index = 0;
     Int_t fec_id = 0;
     Int_t adc_ch = 0;
     vector <Int_t> V = raw_event.begin()->second;

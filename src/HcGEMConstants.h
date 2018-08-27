@@ -20,6 +20,39 @@
 #define GEM_LENGTH 15.36       // 15.36 cm x 15.36 cm GEM
 
 
+//For Multi-Cluster Algorithm, lower threshold is fine
+//For Cosmic
+// #define THRESHOLD_HI_X 150
+// #define THRESHOLD_HI_Y 100
+
+// #define THRESHOLD_LOW_X 100
+// #define THRESHOLD_LOW_Y 50
+
+//With Beam
+#define THRESHOLD_HI_X 200
+#define THRESHOLD_HI_Y 150
+
+#define THRESHOLD_LOW_X 150
+#define THRESHOLD_LOW_Y 100
+
+
+//Number of time-bins to be fitted
+//Best combination for cosmic 8, 5, 4
+#define FITTED_TBINS 8
+#define MATCHING_LIMIT 4  //5
+#define EXTENDED_BINS 4
+
+//For Single-Cluster Algorithm, needs higher threshold
+#define THRESHOLD_HI 400
+#define THRESHOLD_LOW 250
+
+//Timing Cut
+//(3-7) Best, (3-6) better, (2-7) default
+#define APPLY_TIMING_CUT 1
+#define TIME_LOW 3
+#define TIME_HIGH 7 //6 best
+
+
 //---------- Hall C GEM Mapping -----------------------
 
 #define X1_ADC_NO 2
