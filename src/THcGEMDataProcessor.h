@@ -19,6 +19,7 @@ class THcGEMDataProcessor : public TObject
 {
 private:    
     Int_t ***fMappedRawData;
+    Double_t **fPedestal;
     Int_t GetFirstIndex(vector <Int_t> V);
     Int_t GetStripMapping(Int_t chNo);    
 public:
@@ -30,7 +31,8 @@ public:
     Bool_t ProcessEvent(unordered_map<int, vector<int> > raw_event);    
     void SubtractPedestal();
     Int_t*** GetProcessedData();
-    
+    void PrintPedestal();
+
     ClassDef(THcGEMDataProcessor,0)
 };
 

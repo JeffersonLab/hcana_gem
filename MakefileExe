@@ -23,7 +23,7 @@ Source  := main.cc \
 	   EventUpdater.cc \
 	   GEMSignalFitting.cc \
 	   THcGEMDataProcessor.cc \
-	   THcGEMPhysics.cc \
+	   THcGEMCluster.cc \
 	   Dict.cc
 
 OBJDIR 	:= ./obj

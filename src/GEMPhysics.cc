@@ -18,7 +18,7 @@ GEMPhysics::GEMPhysics()
         <<endl;
     mapping = GEMMapping::GetInstance();
     fGEMDataProcessor = new THcGEMDataProcessor();
-    fHcGEMPhysics = new THcGEMPhysics();
+    fHcGEMCluster = new THcGEMCluster();
 }
 
 GEMPhysics::~GEMPhysics()
@@ -65,37 +65,6 @@ void GEMPhysics::SetGEMTree(GEMTree *tree)
 //     sig_fitting -> Fit();
 // }
 
-
-// -------------- Hall C GEM implementation -----------------
-void GEMPhysics::AccumulateEvent(int evtID, std::unordered_map<int, std::vector<int> > event)
-{
-    //cout<<"event number from gem: "<<evtID<<endl;
-    SetEvtID( evtID );
-
-    bool hasGEMData = false;
-    hasGEMData = fGEMDataProcessor->ProcessEvent(event);
-    if(!hasGEMData)
-    {
-	fHcGEMPhysics->ResetCoordinate();
-	CharactorizeGEM();
-	return;
-    }
-	
-    fHcGEMPhysics->RegisterBuffer(fGEMDataProcessor->GetProcessedData());
-
-    fHcGEMPhysics->FillRawCoordinate();	
-    if(fHcGEMPhysics->fRawCoord.size() != 2) // For now lets consider only pair of clusters
-	fHcGEMPhysics->ResetCoordinate();
-    else
-    {
-	fHcGEMPhysics->ComputeCoordinate();
-	if(fHcGEMPhysics->fGEM_Coord.X == -1 || fHcGEMPhysics->fGEM_Coord.Y == -1) // Discard double hits on same axis
-	    fHcGEMPhysics->ResetCoordinate();
-    }
-
-    CharactorizeGEM();
-}
-
 // ---------------- Hall B Implementation -----------------
 // void GEMPhysics::CharactorizeGEM()
 // {
@@ -111,12 +80,67 @@ void GEMPhysics::AccumulateEvent(int evtID, std::unordered_map<int, std::vector<
 //     rst_tree -> FillGEMTree();
 // }
 
+// -------------- Hall C GEM implementation:Old Algorithm, works for single cluster only -----------------
+// void GEMPhysics::AccumulateEvent(int evtID, std::unordered_map<int, std::vector<int> > event)
+// {
+//     //cout<<"event number from gem: "<<evtID<<endl;
+//     SetEvtID( evtID );
+
+//     bool hasGEMData = false;
+//     hasGEMData = fGEMDataProcessor->ProcessEvent(event);
+//     if(!hasGEMData)
+//     {
+// 	fHcGEMCluster->ResetCoordinate();
+// 	CharactorizeGEM();
+// 	return;
+//     }
+	
+//     fHcGEMCluster->RegisterBuffer(fGEMDataProcessor->GetProcessedData());
+
+//     fHcGEMCluster->FillRawCoordinate();	
+//     // if(fHcGEMCluster->fRawCoord.size() != 2) // For now lets consider only pair of clusters
+//     // 	fHcGEMCluster->ResetCoordinate();
+//     // else
+//     {
+// 	fHcGEMCluster->ComputeCoordinate();
+// 	if(fHcGEMCluster->fGEM_Coord.X == -1 || fHcGEMCluster->fGEM_Coord.Y == -1) // Discard double hits on same axis
+// 	    fHcGEMCluster->ResetCoordinate();
+//     }
+
+//     CharactorizeGEM();
+// }
+
+// -------------- Hall C GEM implementation:New Algorithm -----------------
+void GEMPhysics::AccumulateEvent(int evtID, std::unordered_map<int, std::vector<int> > event)
+{
+    //cout<<"event number from gem: "<<evtID<<endl;
+    SetEvtID( evtID );
+
+    bool hasGEMData = false;
+    hasGEMData = fGEMDataProcessor->ProcessEvent(event);
+    if(!hasGEMData)
+    {
+	fHcGEMCluster->ResetCoordinate();
+	CharactorizeGEM();
+	return;
+    }
+	
+    fHcGEMCluster->RegisterBuffer(fGEMDataProcessor->GetProcessedData());
+    fHcGEMCluster->FindClusters();    
+    fHcGEMCluster->ComputeCoordinate(kTRUE);
+    
+    if(fHcGEMCluster->fGEM_Coord.X == -1 || fHcGEMCluster->fGEM_Coord.Y == -1)
+    	fHcGEMCluster->ResetCoordinate();
+    
+    CharactorizeGEM();
+}
+
 // ------------------ Hall C Implementation ------------------
 void GEMPhysics::CharactorizeGEM()
 {
     rst_tree->SetEventID(evt_id);
-    rst_tree -> PushCoordinate(fHcGEMPhysics->fGEM_Coord);
-    rst_tree -> FillGEMTree();
+    rst_tree->PushCoordinate(fHcGEMCluster->fGEM_Coord);
+    rst_tree->FillGEMTree();
 }
 
 void GEMPhysics::CharactorizePhysics()
