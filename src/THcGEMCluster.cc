@@ -272,6 +272,7 @@ Bool_t THcGEMCluster:: FitClusterCandidates(Int_t adc, Int_t tbin, Int_t strip)
     }
 }
 
+// New Algorithm, work for multiple clusters , slow approach
 void THcGEMCluster:: ComputeCoordinate(Bool_t /*newApproach*/)
 {
     fGEM_Coord.X = -1.0;
@@ -300,39 +301,39 @@ void THcGEMCluster:: ComputeCoordinate(Bool_t /*newApproach*/)
 	// First let's verify considering first cluster only. Also (x,y) pair is not proper here. //<----------- FIX IT to get full advantage of multi-cluster algorithm
 	 switch (adc_No)
 	 {
-	   // case X1_ADC_NO:
-	   //   fGEM_Coord.X = X1*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - fMapOfGEMClusters[adc_No][0].wire - 1)*stripNoToCm;
-	   //   fGEM_Coord.charge_x = fMapOfGEMClusters[adc_No][0].height;
-	   //   break;
+	   case X1_ADC_NO:
+	     fGEM_Coord.X = X1*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - fMapOfGEMClusters[adc_No][0].wire - 1)*stripNoToCm;
+	     fGEM_Coord.charge_x = fMapOfGEMClusters[adc_No][0].height;
+	     break;
 	   case X2_ADC_NO:
 	     fGEM_Coord.X = X2*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - fMapOfGEMClusters[adc_No][0].wire - 1)*stripNoToCm;
 	     fGEM_Coord.charge_x = fMapOfGEMClusters[adc_No][0].height;
 	     break;
-	   // case X3_ADC_NO:
-	   //   fGEM_Coord.X = X3*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - fMapOfGEMClusters[adc_No][0].wire - 1)*stripNoToCm;
-	   //   fGEM_Coord.charge_x = fMapOfGEMClusters[adc_No][0].height;
-	   //   break;
-	   // case Y1_ADC_NO:
-	   //   fGEM_Coord.Y = Y1*(Double_t)N_STRIPS*stripNoToCm + (fMapOfGEMClusters[adc_No][0].wire + 1)*stripNoToCm;
-	   //   fGEM_Coord.Y = length - fGEM_Coord.Y;
-	   //   fGEM_Coord.charge_y = fMapOfGEMClusters[adc_No][0].height;
-	   //   break;
+	   case X3_ADC_NO:
+	     fGEM_Coord.X = X3*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - fMapOfGEMClusters[adc_No][0].wire - 1)*stripNoToCm;
+	     fGEM_Coord.charge_x = fMapOfGEMClusters[adc_No][0].height;
+	     break;
+	   case Y1_ADC_NO:
+	     fGEM_Coord.Y = Y1*(Double_t)N_STRIPS*stripNoToCm + (fMapOfGEMClusters[adc_No][0].wire + 1)*stripNoToCm;
+	     fGEM_Coord.Y = length - fGEM_Coord.Y;
+	     fGEM_Coord.charge_y = fMapOfGEMClusters[adc_No][0].height;
+	     break;
 	   case Y2_ADC_NO:
 	     fGEM_Coord.Y = Y2*(Double_t)N_STRIPS*stripNoToCm + (fMapOfGEMClusters[adc_No][0].wire + 1)*stripNoToCm;
 	     fGEM_Coord.Y = length - fGEM_Coord.Y;
 	     fGEM_Coord.charge_y = fMapOfGEMClusters[adc_No][0].height;
 	     break;
-	   // case Y3_ADC_NO:
-	   //   fGEM_Coord.Y = Y3*(Double_t)N_STRIPS*stripNoToCm + (fMapOfGEMClusters[adc_No][0].wire + 1)*stripNoToCm;
-	   //   fGEM_Coord.Y = length - fGEM_Coord.Y;
-	   //   fGEM_Coord.charge_y = fMapOfGEMClusters[adc_No][0].height;
-	   //   break;
+	   case Y3_ADC_NO:
+	     fGEM_Coord.Y = Y3*(Double_t)N_STRIPS*stripNoToCm + (fMapOfGEMClusters[adc_No][0].wire + 1)*stripNoToCm;
+	     fGEM_Coord.Y = length - fGEM_Coord.Y;
+	     fGEM_Coord.charge_y = fMapOfGEMClusters[adc_No][0].height;
+	     break;
            default:
 	     break;
 	}
     }         
 }
-
+// Old Algorithm, work for Single cluster only, fast approach
 void THcGEMCluster:: ComputeCoordinate()
 {
     ResetCoordinate();
@@ -352,33 +353,33 @@ void THcGEMCluster:: ComputeCoordinate()
         // The GEM coordinate is also transformed to align the axes with Hall C transport coordinate system
 	 switch (rc.adcNo)
 	 {
-	   // case X1_ADC_NO:
-	   //   fGEM_Coord.X = X1*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - rc.stripNo - 1)*stripNoToCm;
-	   //   fGEM_Coord.charge_x = rc.ADCValue;
-	   //   break;
+	   case X1_ADC_NO:
+	     fGEM_Coord.X = X1*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - rc.stripNo - 1)*stripNoToCm;
+	     fGEM_Coord.charge_x = rc.ADCValue;
+	     break;
 	   case X2_ADC_NO:
 	     fGEM_Coord.X = X2*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - rc.stripNo - 1)*stripNoToCm;
 	     fGEM_Coord.charge_x = rc.ADCValue;
 	     break;
-	   // case X3_ADC_NO:
-	   //   fGEM_Coord.X = X3*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - rc.stripNo - 1)*stripNoToCm;
-	   //   fGEM_Coord.charge_x = rc.ADCValue;
-	   //   break;
-	   // case Y1_ADC_NO:
-	   //   fGEM_Coord.Y = Y1*(Double_t)N_STRIPS*stripNoToCm + (rc.stripNo + 1)*stripNoToCm;
-	   //   fGEM_Coord.Y = length - fGEM_Coord.Y;
-	   //   fGEM_Coord.charge_y = rc.ADCValue;
-	   //   break;
+	   case X3_ADC_NO:
+	     fGEM_Coord.X = X3*(Double_t)N_STRIPS*stripNoToCm + (N_STRIPS - rc.stripNo - 1)*stripNoToCm;
+	     fGEM_Coord.charge_x = rc.ADCValue;
+	     break;
+	   case Y1_ADC_NO:
+	     fGEM_Coord.Y = Y1*(Double_t)N_STRIPS*stripNoToCm + (rc.stripNo + 1)*stripNoToCm;
+	     fGEM_Coord.Y = length - fGEM_Coord.Y;
+	     fGEM_Coord.charge_y = rc.ADCValue;
+	     break;
 	   case Y2_ADC_NO:
 	     fGEM_Coord.Y = Y2*(Double_t)N_STRIPS*stripNoToCm + (rc.stripNo + 1)*stripNoToCm;
 	     fGEM_Coord.Y = length - fGEM_Coord.Y;
 	     fGEM_Coord.charge_y = rc.ADCValue;
 	     break;
-	   // case Y3_ADC_NO:
-	   //   fGEM_Coord.Y = Y3*(Double_t)N_STRIPS*stripNoToCm + (rc.stripNo + 1)*stripNoToCm;
-	   //   fGEM_Coord.Y = length - fGEM_Coord.Y;
-	   //   fGEM_Coord.charge_y = rc.ADCValue;
-	   //   break;
+	   case Y3_ADC_NO:
+	     fGEM_Coord.Y = Y3*(Double_t)N_STRIPS*stripNoToCm + (rc.stripNo + 1)*stripNoToCm;
+	     fGEM_Coord.Y = length - fGEM_Coord.Y;
+	     fGEM_Coord.charge_y = rc.ADCValue;
+	     break;
 	}
     }    
 }

@@ -130,7 +130,7 @@ void GEMPhysics::AccumulateEvent(int evtID, std::unordered_map<int, std::vector<
     fHcGEMCluster->ComputeCoordinate(kTRUE);
     
     if(fHcGEMCluster->fGEM_Coord.X == -1 || fHcGEMCluster->fGEM_Coord.Y == -1)
-	fHcGEMCluster->ResetCoordinate();
+    	fHcGEMCluster->ResetCoordinate();
     
     CharactorizeGEM();
 }
